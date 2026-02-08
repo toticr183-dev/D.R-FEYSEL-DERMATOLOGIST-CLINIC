@@ -1,0 +1,4 @@
+<!-- In your booking form, find the phone input and change it from: -->
+<!-- <input type="tel" id="patientPhone" placeholder="Enter 9-digit number" required pattern="[0-9]{9}"> -->
+<!-- TO THIS: -->
+<input type="tel" id="patientPhone" placeholder="0912345678 (9 digits)" required>
