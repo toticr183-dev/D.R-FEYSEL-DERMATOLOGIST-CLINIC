@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dr. Feysel Dermatology Center | Zenebework & Bole Clinics</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="images/favicon.ico">
+</head>
+<body>
+    <!-- Announcement Bar -->
+    <div class="announcement">
+        <div class="container">
+            <span class="announcement-text">
+                <i class="fas fa-bell"></i> 
+                Next Live Q&A: Saturday 10:00 AM | 
+                <a href="#live-section" class="live-link">Join Now</a>
+            </span>
+            <span class="language-switch">
+                <button class="lang-btn active">English</button>
+                <button class="lang-btn">አማርኛ</button>
+            </span>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container nav-container">
+            <a href="#" class="logo">
+                <i class="fas fa-stethoscope logo-icon"></i>
+                <span class="logo-text">Dr. Feysel<span class="logo-sub">Dermatology</span></span>
+            </a>
+            
+            <div class="nav-menu" id="navMenu">
+                <a href="#home" class="nav-link active"><i class="fas fa-home"></i> Home</a>
+                <a href="#about" class="nav-link"><i class="fas fa-user-md"></i> About Doctor</a>
+                <a href="#services" class="nav-link"><i class="fas fa-hand-holding-medical"></i> Services</a>
+                <a href="#clinics" class="nav-link"><i class="fas fa-clinic-medical"></i> Our Clinics</a>
+                <a href="#live-section" class="nav-link live-nav"><i class="fas fa-video"></i> Live Sessions</a>
+                <a href="#contact" class="nav-link"><i class="fas fa-phone-alt"></i> Contact</a>
+            </div>
+
+            <div class="nav-actions">
+                <a href="#booking" class="btn btn-primary">
+                    <i class="fas fa-calendar-check"></i> Book Appointment
+                </a>
+                <button class="menu-toggle" id="menuToggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="container hero-container">
+            <div class="hero-content">
+                <h6 class="hero-subtitle">Ethiopia's Leading Dermatology Specialist</h6>
+                <h1 class="hero-title">Healthy Skin Starts With <span class="highlight">Expert Care</span></h1>
+                <p class="hero-description">
+                    Board-certified dermatologist with 15+ years experience treating skin conditions, 
+                    hair disorders, and cosmetic dermatology at Zenebework and Bole clinics.
+                </p>
+                <div class="hero-buttons">
+                    <a href="#booking" class="btn btn-primary btn-large">
+                        <i class="fas fa-video"></i> Book Online Consultation
+                    </a>
+                    <a href="#live-section" class="btn btn-secondary btn-large">
+                        <i class="fas fa-users"></i> Join Free Live Q&A
+                    </a>
+                </div>
+                <div class="hero-stats">
+                    <div class="stat">
+                        <h3>15+</h3>
+                        <p>Years Experience</p>
+                    </div>
+                    <div class="stat">
+                        <h3>10,000+</h3>
+                        <p>Patients Treated</p>
+                    </div>
+                    <div class="stat">
+                        <h3>2</h3>
+                        <p>Modern Clinics</p>
+                    </div>
+                    <div class="stat">
+                        <h3>24/7</h3>
+                        <p>Telegram Support</p>
+                    </div>
+                </div>
+            </div>
+            <div class="hero-image">
+                <div class="image-frame">
+                    <img src="https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                         alt="Dr. Feysel - Dermatology Specialist" class="doctor-image">
+                    <div class="image-badge">
+                        <i class="fas fa-award"></i>
+                        Certified Dermatologist
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Live Sessions Section -->
+    <section class="live-section" id="live-section">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title"><i class="fas fa-satellite-dish"></i> Live Dermatology Sessions</h2>
+                <p class="section-subtitle">Connect directly with Dr. Feysel from anywhere in Ethiopia</p>
+            </div>
+
+            <div class="live-container">
+                <!-- Next Live Session -->
+                <div class="next-live-card">
+                    <div class="live-header">
+                        <div class="live-badge">
+                            <i class="fas fa-broadcast-tower"></i> LIVE SOON
+                        </div>
+                        <h3 class="live-title">Weekly Skin Care Q&A</h3>
+                        <p class="live-topic"><i class="fas fa-microphone"></i> Topic: Acne Treatment & Prevention</p>
+                    </div>
+                    
+                    <div class="live-countdown">
+                        <h4>Starts In:</h4>
+                        <div class="countdown-timer" id="countdown">
+                            <div class="time-unit">
+                                <span class="number" id="days">00</span>
+                                <span class="label">Days</span>
+                            </div>
+                            <div class="time-unit">
+                                <span class="number" id="hours">00</span>
+                                <span class="label">Hours</span>
+                            </div>
+                            <div class="time-unit">
+                                <span class="number" id="minutes">00</span>
+                                <span class="label">Minutes</span>
+                            </div>
+                            <div class="time-unit">
+                                <span class="number" id="seconds">00</span>
+                                <span class="label">Seconds</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="live-info">
+                        <div class="info-item">
+                            <i class="fas fa-calendar"></i>
+                            <div>
+                                <strong>Date:</strong> Saturday, March 15, 2024
+                            </div>
+                        </div>
+                        <div class="info-item">
+                            <i class="fas fa-clock"></i>
+                            <div>
+                                <strong>Time:</strong> 10:00 AM - 11:30 AM (Ethiopia Time)
+                            </div>
+                        </div>
+                        <div class="info-item">
+                            <i class="fab fa-telegram"></i>
+                            <div>
+                                <strong>Telegram:</strong> 2,500+ followers waiting
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="live-actions">
+                        <button class="btn btn-primary btn-block" id="reminderBtn">
+                            <i class="fas fa-bell"></i> Set Reminder
+                        </button>
+                        <button class="btn btn-secondary btn-block" id="joinLiveBtn">
+                            <i class="fas fa-video"></i> Join Live Session
+                        </button>
+                        <a href="https://t.me/drfeysel_dermatology" target="_blank" class="btn btn-telegram">
+                            <i class="fab fa-telegram"></i> Join Telegram Group
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Previous Sessions -->
+                <div class="sessions-list">
+                    <h4><i class="fas fa-history"></i> Previous Live Sessions</h4>
+                    <div class="session-item">
+                        <div class="session-date">March 8, 2024</div>
+                        <div class="session-topic">Eczema Management in Dry Season</div>
+                        <a href="#" class="session-replay"><i class="fas fa-play-circle"></i> Watch Replay</a>
+                    </div>
+                    <div class="session-item">
+                        <div class="session-date">March 1, 2024</div>
+                        <div class="session-topic">Skin Care for Ethiopian Climate</div>
+                        <a href="#" class="session-replay"><i class="fas fa-play-circle"></i> Watch Replay</a>
+                    </div>
+                    <div class="session-item">
+                        <div class="session-date">Feb 23, 2024</div>
+                        <div class="session-topic">Hair Loss Treatments</div>
+                        <a href="#" class="session-replay"><i class="fas fa-play-circle"></i> Watch Replay</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section class="services" id="services">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title"><i class="fas fa-hand-holding-medical"></i> Specialized Services</h2>
+                <p class="section-subtitle">Comprehensive dermatology care for all skin types</p>
+            </div>
+
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-allergies"></i>
+                    </div>
+                    <h3 class="service-title">Medical Dermatology</h3>
+                    <ul class="service-list">
+                        <li><i class="fas fa-check-circle"></i> Acne Treatment</li>
+                        <li><i class="fas fa-check-circle"></i> Eczema & Psoriasis</li>
+                        <li><i class="fas fa-check-circle"></i> Skin Infections</li>
+                        <li><i class="fas fa-check-circle"></i> Allergy Testing</li>
+                    </ul>
+                </div>
+
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-spa"></i>
+                    </div>
+                    <h3 class="service-title">Cosmetic Dermatology</h3>
+                    <ul class="service-list">
+                        <li><i class="fas fa-check-circle"></i> Laser Treatments</li>
+                        <li><i class="fas fa-check-circle"></i> Chemical Peels</li>
+                        <li><i class="fas fa-check-circle"></i> Botox & Fillers</li>
+                        <li><i class="fas fa-check-circle"></i> Skin Rejuvenation</li>
+                    </ul>
+                </div>
+
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-user-md"></i>
+                    </div>
+                    <h3 class="service-title">Surgical Dermatology</h3>
+                    <ul class="service-list">
+                        <li><i class="fas fa-check-circle"></i> Skin Cancer Removal</li>
+                        <li><i class="fas fa-check-circle"></i> Mole Excision</li>
+                        <li><i class="fas fa-check-circle"></i> Cyst Removal</li>
+                        <li><i class="fas fa-check-circle"></i> Scar Revision</li>
+                    </ul>
+                </div>
+
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-video"></i>
+                    </div>
+                    <h3 class="service-title">Tele-Dermatology</h3>
+                    <ul class="service-list">
+                        <li><i class="fas fa-check-circle"></i> Online Consultations</li>
+                        <li><i class="fas fa-check-circle"></i> Photo Assessment</li>
+                        <li><i class="fas fa-check-circle"></i> Prescription Renewal</li>
+                        <li><i class="fas fa-check-circle"></i> Follow-up Visits</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Clinics Section -->
+    <section class="clinics" id="clinics">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title"><i class="fas fa-clinic-medical"></i> Our Clinic Locations</h2>
+                <p class="section-subtitle">Modern facilities in convenient locations</p>
+            </div>
+
+            <div class="clinics-grid">
+                <div class="clinic-card">
+                    <div class="clinic-header">
+                        <h3 class="clinic-name">Zenebework Clinic</h3>
+                        <span class="clinic-badge primary">Main Branch</span>
+                    </div>
+                    <div class="clinic-info">
+                        <p><i class="fas fa-map-marker-alt"></i> <strong>Address:</strong> Zenebework, Near Friendship Hospital</p>
+                        <p><i class="fas fa-clock"></i> <strong>Hours:</strong> Mon-Fri: 8:30 AM - 6:00 PM | Sat: 9:00 AM - 2:00 PM</p>
+                        <p><i class="fas fa-phone"></i> <strong>Phone:</strong> +251 11 123 4567</p>
+                    </div>
+                    <div class="clinic-map">
+                        <div class="map-placeholder">
+                            <i class="fas fa-map"></i>
+                            <p>Zenebework Location Map</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="clinic-card">
+                    <div class="clinic-header">
+                        <h3 class="clinic-name">Bole Clinic</h3>
+                        <span class="clinic-badge secondary">New Branch</span>
+                    </div>
+                    <div class="clinic-info">
+                        <p><i class="fas fa-map-marker-alt"></i> <strong>Address:</strong> Bole Road, Near Edna Mall</p>
+                        <p><i class="fas fa-clock"></i> <strong>Hours:</strong> Mon-Fri: 9:00 AM - 7:00 PM | Sun: 10:00 AM - 1:00 PM</p>
+                        <p><i class="fas fa-phone"></i> <strong>Phone:</strong> +251 11 987 6543</p>
+                    </div>
+                    <div class="clinic-map">
+                        <div class="map-placeholder">
+                            <i class="fas fa-map"></i>
+                            <p>Bole Location Map</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Booking Section -->
+    <section class="booking" id="booking">
+        <div class="container">
+            <div class="booking-container">
+                <div class="booking-info">
+                    <h2 class="section-title">Book Your Appointment</h2>
+                    <p class="section-subtitle">Choose between in-clinic visit or online consultation</p>
+                    
+                    <div class="booking-options">
+                        <div class="option-card active" data-type="clinic">
+                            <i class="fas fa-clinic-medical"></i>
+                            <h4>Clinic Visit</h4>
+                            <p>Visit our Zenebework or Bole clinic</p>
+                        </div>
+                        <div class="option-card" data-type="online">
+                            <i class="fas fa-video"></i>
+                            <h4>Online Consultation</h4>
+                            <p>Video call from anywhere</p>
+                        </div>
+                        <div class="option-card" data-type="followup">
+                            <i class="fas fa-redo"></i>
+                            <h4>Follow-up</h4>
+                            <p>Existing patients only</p>
+                        </div>
+                    </div>
+
+                    <div class="booking-features">
+                        <div class="feature">
+                            <i class="fas fa-shield-alt"></i>
+                            <div>
+                                <h5>Secure & Confidential</h5>
+                                <p>Your medical information is protected</p>
+                            </div>
+                        </div>
+                        <div class="feature">
+                            <i class="fas fa-mobile-alt"></i>
+                            <div>
+                                <h5>Telegram Reminders</h5>
+                                <p>Get appointment reminders on Telegram</p>
+                            </div>
+                        </div>
+                        <div class="feature">
+                            <i class="fas fa-file-prescription"></i>
+                            <div>
+                                <h5>Digital Prescriptions</h5>
+                                <p>Receive prescriptions via email/Telegram</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="booking-form">
+                    <form id="appointmentForm">
+                        <div class="form-group">
+                            <label for="patientName"><i class="fas fa-user"></i> Full Name</label>
+                            <input type="text" id="patientName" placeholder="Enter your full name" required>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="patientPhone"><i class="fas fa-phone"></i> Phone Number</label>
+                                <input type="tel" id="patientPhone" placeholder="+251 ___ __ __ __" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="patientTelegram"><i class="fab fa-telegram"></i> Telegram Username</label>
+                                <input type="text" id="patientTelegram" placeholder="@username (optional)">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="appointmentType"><i class="fas fa-calendar-alt"></i> Appointment Type</label>
+                            <select id="appointmentType" required>
+                                <option value="">Select type</option>
+                                <option value="consultation">First Consultation</option>
+                                <option value="followup">Follow-up Visit</option>
+                                <option value="emergency">Emergency</option>
+                                <option value="live">Join Live Session</option>
+                            </select>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="clinicLocation"><i class="fas fa-map-marker-alt"></i> Clinic Location</label>
+                                <select id="clinicLocation">
+                                    <option value="zenebework">Zenebework Clinic</option>
+                                    <option value="bole">Bole Clinic</option>
+                                    <option value="online">Online Only</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="appointmentDate"><i class="fas fa-clock"></i> Preferred Date</label>
+                                <input type="date" id="appointmentDate" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="symptoms"><i class="fas fa-file-medical-alt"></i> Describe Your Condition</label>
+                            <textarea id="symptoms" rows="3" placeholder="Briefly describe your symptoms or concerns"></textarea>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary btn-block">
+                            <i class="fas fa-paper-plane"></i> Book Appointment Now
+                        </button>
+
+                        <p class="form-note">
+                            <i class="fas fa-info-circle"></i> You'll receive confirmation via SMS and Telegram within 2 hours.
+                        </p>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer" id="contact">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-column">
+                    <h3 class="footer-logo">
+                        <i class="fas fa-stethoscope"></i> Dr. Feysel Dermatology
+                    </h3>
+                    <p class="footer-description">
+                        Providing expert dermatology care through modern clinics and telemedicine 
+                        services for patients across Ethiopia.
+                    </p>
+                    <div class="social-links">
+                        <a href="https://t.me/drfeysel_dermatology" class="social-link telegram">
+                            <i class="fab fa-telegram"></i>
+                        </a>
+                        <a href="#" class="social-link whatsapp">
+                            <i class="fab fa-whatsapp"></i>
+                        </a>
+                        <a href="#" class="social-link facebook">
+                            <i class="fab fa-facebook"></i>
+                        </a>
+                        <a href="#" class="social-link email">
+                            <i class="fas fa-envelope"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="footer-column">
+                    <h4>Quick Links</h4>
+                    <ul class="footer-links">
+                        <li><a href="#home"><i class="fas fa-chevron-right"></i> Home</a></li>
+                        <li><a href="#services"><i class="fas fa-chevron-right"></i> Services</a></li>
+                        <li><a href="#clinics"><i class="fas fa-chevron-right"></i> Clinic Locations</a></li>
+                        <li><a href="#live-section"><i class="fas fa-chevron-right"></i> Live Sessions</a></li>
+                        <li><a href="#booking"><i class="fas fa-chevron-right"></i> Book Appointment</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-column">
+                    <h4>Contact Info</h4>
+                    <div class="contact-info">
+                        <p><i class="fas fa-phone-alt"></i> +251 11 123 4567 (Zenebework)</p>
+                        <p><i class="fas fa-phone-alt"></i> +251 11 987 6543 (Bole)</p>
+                        <p><i class="fab fa-telegram"></i> @drfeysel_dermatology</p>
+                        <p><i class="fas fa-envelope"></i> info@drfeyseldermatology.com</p>
+                        <p><i class="fas fa-clock"></i> Emergency: 24/7 Telegram Support</p>
+                    </div>
+                </div>
+
+                <div class="footer-column">
+                    <h4>Emergency Contact</h4>
+                    <div class="emergency-contact">
+                        <div class="emergency-item">
+                            <i class="fas fa-ambulance"></i>
+                            <div>
+                                <strong>Urgent Cases</strong>
+                                <p>Telegram: @drfeysel_emergency</p>
+                            </div>
+                        </div>
+                        <div class="emergency-item">
+                            <i class="fas fa-first-aid"></i>
+                            <div>
+                                <strong>After Hours</strong>
+                                <p>+251 911 234 567</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2024 Dr. Feysel Dermatology Center. All rights reserved.</p>
+                <p>Designed with <i class="fas fa-heart"></i> by Toti Web Solutions</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Floating Action Buttons -->
+    <div class="floating-actions">
+        <a href="https://t.me/drfeysel_dermatology" class="fab-button telegram-fab" target="_blank">
+            <i class="fab fa-telegram"></i>
+            <span class="fab-tooltip">Join Telegram Group</span>
+        </a>
+        <a href="tel:+251111234567" class="fab-button call-fab">
+            <i class="fas fa-phone"></i>
+            <span class="fab-tooltip">Call Clinic</span>
+        </a>
+        <button class="fab-button booking-fab" id="quickBookBtn">
+            <i class="fas fa-calendar-plus"></i>
+            <span class="fab-tooltip">Quick Book</span>
+        </button>
+    </div>
+
+    <!-- Loading Spinner -->
+    <div class="loading-spinner" id="loadingSpinner">
+        <div class="spinner"></div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
