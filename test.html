@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Booking</title>
+</head>
+<body>
+    <h2>🔬 Test Dr. Feysel Booking System</h2>
+    
+    <div style="background:#e3f2fd; padding:20px; border-radius:10px; margin:20px 0;">
+        <h3>Test Connection</h3>
+        <button onclick="testConnection()">Test Database Connection</button>
+        <div id="connectionResult" style="margin-top:10px;"></div>
+    </div>
+    
+    <div style="background:#f3e5f5; padding:20px; border-radius:10px;">
+        <h3>📝 Test Appointment Booking</h3>
+        <input type="text" id="testName" placeholder="Name" value="Test Patient" style="padding:10px; margin:5px;"><br>
+        <input type="text" id="testPhone" placeholder="Phone" value="+251911223344" style="padding:10px; margin:5px;"><br>
+        <select id="testClinic" style="padding:10px; margin:5px;">
+            <option>Zenebework</option>
+            <option>Bole</option>
+        </select><br>
+        <input type="date" id="testDate" style="padding:10px; margin:5px;"><br>
+        <button onclick="testBooking()" style="padding:10px 20px; background:#4caf50; color:white; border:none; border-radius:5px; margin-top:10px;">
+            Test Booking
+        </button>
+        <div id="bookingResult" style="margin-top:10px;"></div>
+    </div>
+
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+    <script>
+        // 🔑 YOUR SUPABASE CREDENTIALS
+        const SUPABASE_URL = 'https://iihgacjyaxtkvzpbprcq.supabase.co';
+        const SUPABASE_KEY = 'sb_publishable_DGfx4CeHnmtUPiYAKWiAg_WAhPz...'; // ← YOUR KEY HERE
+        
+        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+        
+        // Set today's date as default
+        document.getElementById('testDate').value = new Date().toISOString().split('T')[0];
+        
+        async function testConnection() {
+            const result = document.getElementById('connectionResult');
+            result.innerHTML = 'Testing...';
+            
+            try {
+                const { count, error } = await supabase
+                    .from('appointments')
+                    .select('*', { count: 'exact', head: true });
+                
+                if (error) {
+                    result.innerHTML = `<span style="color:red;">❌ Error: ${error.message}</span>`;
+                } else {
+                    result.innerHTML = `<span style="color:green;">
+                        ✅ Connected! Found ${count} appointments.
+                    </span>`;
+                }
+            } catch (err) {
+                result.innerHTML = `<span style="color:red;">❌ Exception: ${err.message}</span>`;
+            }
+        }
+        
+        async function testBooking() {
+            const result = document.getElementById('bookingResult');
+            result.innerHTML = 'Booking...';
+            
+            const appointment = {
+                name: document.getElementById('testName').value,
+                phone: document.getElementById('testPhone').value,
+                clinic: document.getElementById('testClinic').value,
+                appointment_date: document.getElementById('testDate').value,
+                telegram: '@testuser',
+                status: 'pending'
+            };
+            
+            try {
+                const { data, error } = await supabase
+                    .from('appointments')
+                    .insert([appointment])
+                    .select();
+                
+                if (error) {
+                    result.innerHTML = `<span style="color:red;">
+                        ❌ Booking failed: ${error.message}
+                    </span>`;
+                } else {
+                    result.innerHTML = `<span style="color:green;">
+                        ✅ SUCCESS! Booked appointment ID: ${data[0].id}<br>
+                        Check <a href="https://app.supabase.com/project/iihgacjyaxtkvzpbprcq/editor" target="_blank">
+                            Supabase Table Editor
+                        </a> to see it!
+                    </span>`;
+                }
+            } catch (err) {
+                result.innerHTML = `<span style="color:red;">❌ Exception: ${err.message}</span>`;
+            }
+        }
+        
+        // Auto-test connection on load
+        setTimeout(testConnection, 1000);
+    </script>
+</body>
+</html>
