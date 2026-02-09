@@ -1,3 +1,187 @@
+// ===========================================
+// DR. FEYSEL DERMATOLOGY CLINIC - DATABASE
+// ===========================================
+
+// 🔑 SUPABASE CONFIGURATION
+const SUPABASE_CONFIG = {
+    URL: 'https://iihgacjyaxtkvzpbprcq.supabase.co',
+    KEY: 'sb_publishable_DGfx4CeHnmtUPiYAKWiAg_WAhPz...' // ← YOUR KEY
+};
+
+// Initialize database connection
+const { createClient } = supabase;
+const db = createClient(SUPABASE_CONFIG.URL, SUPABASE_CONFIG.KEY);
+
+// ===========================================
+// BOOK APPOINTMENT FUNCTION
+// ===========================================
+
+async function bookAppointment(event) {
+    // Prevent form submission if it's a form
+    if (event) event.preventDefault();
+    
+    // Get form data from YOUR beautiful website
+    // ADJUST THESE SELECTORS to match your actual HTML IDs/classes
+    const appointmentData = {
+        name: getValue('#patientName') || getValue('input[name="name"]') || 'Not provided',
+        phone: getValue('#patientPhone') || getValue('input[name="phone"]') || 'Not provided',
+        clinic: getValue('#clinicLocation') || getValue('select[name="clinic"]') || 'Zenebework',
+        appointment_date: getValue('#appointmentDate') || getValue('input[name="date"]') || getTodayDate(),
+        telegram: getValue('#telegramUsername') || getValue('input[name="telegram"]') || null,
+        status: 'pending'
+    };
+    
+    // Validate required fields
+    if (!appointmentData.name || appointmentData.name === 'Not provided') {
+        alert('❌ Please enter your name');
+        return;
+    }
+    
+    if (!appointmentData.phone || appointmentData.phone === 'Not provided') {
+        alert('❌ Please enter your phone number');
+        return;
+    }
+    
+    // Show loading state
+    const button = document.querySelector('#bookButton, button[type="submit"]');
+    if (button) {
+        const originalText = button.textContent;
+        button.textContent = 'Booking...';
+        button.disabled = true;
+        
+        // Revert button after 5 seconds (safety)
+        setTimeout(() => {
+            button.textContent = originalText;
+            button.disabled = false;
+        }, 5000);
+    }
+    
+    try {
+        console.log('Sending appointment:', appointmentData);
+        
+        // INSERT INTO DATABASE
+        const { data, error } = await db
+            .from('appointments')
+            .insert([appointmentData])
+            .select();
+        
+        if (error) {
+            console.error('Database error:', error);
+            throw new Error(`Database error: ${error.message}`);
+        }
+        
+        // SUCCESS!
+        console.log('Appointment created:', data[0]);
+        
+        // Show success message
+        alert(`✅ Appointment booked successfully!\n\nDr. Feysel will contact you at ${appointmentData.phone} within 2 hours.\n\nYour reference ID: FEYSEL-${data[0].id}`);
+        
+        // Clear form if it exists
+        const form = document.querySelector('form');
+        if (form) form.reset();
+        
+        return { success: true, appointmentId: data[0].id };
+        
+    } catch (error) {
+        console.error('Booking failed:', error);
+        
+        // User-friendly error messages
+        let userMessage = 'Booking failed. ';
+        
+        if (error.message.includes('RLS')) {
+            userMessage += 'Please enable Row Level Security policies in Supabase.';
+        } else if (error.message.includes('JWT')) {
+            userMessage += 'API key issue. Please check your Supabase configuration.';
+        } else if (error.message.includes('network')) {
+            userMessage += 'Network error. Please check your internet connection.';
+        } else {
+            userMessage += 'Please call the clinic directly or try again later.';
+        }
+        
+        alert('❌ ' + userMessage);
+        return { success: false, error: error.message };
+        
+    } finally {
+        // Reset button state
+        if (button) {
+            button.textContent = 'Book Appointment';
+            button.disabled = false;
+        }
+    }
+}
+
+// ===========================================
+// HELPER FUNCTIONS
+// ===========================================
+
+function getValue(selector) {
+    const element = document.querySelector(selector);
+    return element ? element.value : null;
+}
+
+function getTodayDate() {
+    const today = new Date();
+    return today.toISOString().split('T')[0]; // YYYY-MM-DD
+}
+
+// ===========================================
+// INITIALIZE WEBSITE
+// ===========================================
+
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('🏥 Dr. Feysel Clinic website loaded');
+    
+    // Connect booking button(s)
+    const bookButtons = document.querySelectorAll('#bookButton, .book-button, button[type="submit"]');
+    
+    bookButtons.forEach(button => {
+        button.addEventListener('click', function(e) {
+            e.preventDefault();
+            bookAppointment(e);
+        });
+    });
+    
+    // Test database connection quietly
+    db.from('appointments').select('count', { count: 'exact', head: true })
+        .then(({ count, error }) => {
+            if (error) {
+                console.warn('Database note:', error.message);
+            } else {
+                console.log(`Database connected. Total appointments: ${count}`);
+            }
+        });
+});
+
+// ===========================================
+// ADMIN PANEL LINK (Optional)
+// ===========================================
+
+// Add this button somewhere in your website for Dr. Feysel
+function addAdminButton() {
+    const adminButton = document.createElement('button');
+    adminButton.textContent = '👨‍⚕️ Admin Panel';
+    adminButton.style.position = 'fixed';
+    adminButton.style.bottom = '20px';
+    adminButton.style.right = '20px';
+    adminButton.style.padding = '10px 15px';
+    adminButton.style.background = '#0066cc';
+    adminButton.style.color = 'white';
+    adminButton.style.border = 'none';
+    adminButton.style.borderRadius = '5px';
+    adminButton.style.cursor = 'pointer';
+    adminButton.style.zIndex = '1000';
+    
+    adminButton.onclick = function() {
+        window.open('admin.html', '_blank');
+    };
+    
+    document.body.appendChild(adminButton);
+}
+
+// Uncomment to add admin button
+// addAdminButton();
+
+
 document.addEventListener('DOMContentLoaded', function() {
     // Mobile Menu Toggle
     const menuToggle = document.getElementById('menuToggle');
