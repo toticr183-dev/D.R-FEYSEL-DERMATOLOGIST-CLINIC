@@ -1,19 +1,19 @@
 // ===========================================
-// DR. FEYSEL CLINIC - FINAL WORKING VERSION
+// DR. FEYSEL CLINIC - MATCHING YOUR HTML
 // ===========================================
 
 // 🔑 YOUR SUPABASE KEY
 const SUPABASE_URL = 'https://iihgacjyaxtkvzpbprcq.supabase.co';
 const SUPABASE_KEY = 'sb_publishable_eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlpaGdhY2p5YXh0a3Z6cGJwcmNxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzA2NDU2MTEsImV4cCI6MjA4NjIyMTYxMX0.nNN5abbsrDGBIpNGm7fQTN8EcpkmJxUL6lXRUsqbMnY';
 
-console.log('🏥 Clinic system starting...');
+console.log('🏥 Clinic system starting with YOUR HTML structure...');
 
 // Initialize database
 const { createClient } = supabase;
 const db = createClient(SUPABASE_URL, SUPABASE_KEY);
 
 // ===========================================
-// BOOKING FUNCTION (WITH PAGE REFRESH FIX)
+// BOOKING FUNCTION (MATCHES YOUR HTML IDs)
 // ===========================================
 
 async function bookAppointment(event) {
@@ -24,9 +24,175 @@ async function bookAppointment(event) {
         event.stopImmediatePropagation();
     }
     
-    console.log('📅 Booking started (no refresh)');
+    console.log('📅 Booking started...');
     
-    // Get form data
+    // Get data from YOUR HTML form (using YOUR IDs)
+    const appointment = {
+        name: document.getElementById('patientName')?.value || '',
+        phone: document.getElementById('patientPhone')?.value || '',
+        telegram: document.getElementById('patientTelegram')?.value || null,
+        appointment_type: document.getElementById('appointmentType')?.value || 'consultation',
+        clinic: document.getElementById('clinicLocation')?.value || 'zenebework',
+        appointment_date: document.getElementById('appointmentDate')?.value || '',
+        symptoms: document.getElementById('symptoms')?.value || '',
+        status: 'pending'
+    };
+    
+    console.log('📊 Collected data:', appointment);
+    
+    // Validate (using YOUR fields)
+    if (!appointment.name.trim()) {
+        alert('❌ Please enter your full name');
+        return false;
+    }
+    if (!appointment.phone.trim()) {
+        alert('❌ Please enter your phone number');
+        return false;
+    }
+    if (!appointment.appointment_date) {
+        alert('❌ Please select preferred date');
+        return false;
+    }
+    
+    // Show loading on YOUR button
+    const button = document.querySelector('.btn.btn-primary.btn-block');
+    if (button) {
+        const originalHTML = button.innerHTML;
+        button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
+        button.disabled = true;
+        
+        // Restore button after timeout (safety)
+        setTimeout(() => {
+            button.innerHTML = originalHTML;
+            button.disabled = false;
+        }, 5000);
+    }
+    
+    try {
+        console.log('📤 Sending to database...');
+        
+        // Send to Supabase
+        const { data, error } = await db
+            .from('appointments')
+            .insert([appointment])
+            .select();
+        
+        console.log('📥 Database response:', { data, error });
+        
+        if (error) {
+            console.error('❌ Database error:', error);
+            alert(`❌ Error: ${error.message}\n\nPlease call the clinic directly.`);
+            return false;
+        }
+        
+        // 🎉 SUCCESS!
+        const successMessage = `✅ Appointment booked successfully!\n\nReference: FEYSEL-${data[0].id}\n\nDr. Feysel will contact you at ${appointment.phone} within 2 hours.`;
+        console.log('🎉 Success!', successMessage);
+        alert(successMessage);
+        
+        // Clear YOUR form
+        const form = document.getElementById('appointmentForm');
+        if (form) {
+            form.reset();
+            console.log('✅ Form cleared');
+        }
+        
+        return true;
+        
+    } catch (error) {
+        console.error('❌ Unexpected error:', error);
+        alert('❌ Unexpected error. Please try again or call +251 11 123 4567');
+        return false;
+        
+    } finally {
+        // Restore button
+        const button = document.querySelector('.btn.btn-primary.btn-block');
+        if (button) {
+            button.innerHTML = '<i class="fas fa-paper-plane"></i> Book Appointment Now';
+            button.disabled = false;
+        }
+    }
+}
+
+// ===========================================
+// INITIALIZE WITH YOUR HTML
+// ===========================================
+
+document.addEventListener('DOMContentLoaded', () => {
+    console.log('📄 Page loaded - looking for YOUR HTML elements...');
+    
+    // Find YOUR booking button (using YOUR classes)
+    const bookingButton = document.querySelector('.btn.btn-primary.btn-block');
+    const appointmentForm = document.getElementById('appointmentForm');
+    
+    console.log('Found button?', !!bookingButton);
+    console.log('Found form?', !!appointmentForm);
+    
+    if (bookingButton) {
+        // Remove any existing listeners
+        const newButton = bookingButton.cloneNode(true);
+        bookingButton.parentNode.replaceChild(newButton, bookingButton);
+        
+        // Add click listener to NEW button
+        const updatedButton = document.querySelector('.btn.btn-primary.btn-block');
+        updatedButton.addEventListener('click', bookAppointment);
+        
+        console.log('✅ Button connected successfully');
+    } else {
+        console.error('❌ Could not find booking button!');
+        console.log('Available buttons:', document.querySelectorAll('button'));
+    }
+    
+    // Also prevent form submission
+    if (appointmentForm) {
+        appointmentForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            bookAppointment(e);
+            return false;
+        });
+        console.log('✅ Form submission prevented');
+    }
+    
+    // Test database connection
+    setTimeout(() => {
+        db.from('appointments').select('count', { count: 'exact', head: true })
+            .then(({ count, error }) => {
+                if (error) {
+                    console.warn('Database connection test:', error.message);
+                } else {
+                    console.log(`✅ Database connected. Total appointments: ${count}`);
+                }
+            });
+    }, 1000);
+    
+    console.log('✅ Clinic system initialized for YOUR HTML');
+});
+
+// ===========================================
+// DEBUG HELPERS
+// ===========================================
+
+// Add this to test if script is running
+console.log('✅ script.js loaded successfully');
+
+// Test function you can run from browser console
+window.testBooking = function() {
+    console.log('🧪 Manual test started...');
+    
+    // Fill test data
+    document.getElementById('patientName').value = 'Test Patient';
+    document.getElementById('patientPhone').value = '+251911223344';
+    document.getElementById('appointmentDate').value = '2024-03-25';
+    
+    // Trigger booking
+    bookAppointment(new Event('click'));
+};
+
+// Run a quick connection test on load
+window.addEventListener('load', () => {
+    console.log('🌐 Page fully loaded');
+    console.log('Supabase initialized?', !!db);
+});
     const appointment = {
         name: document.getElementById('patientName')?.value || '',
         phone: document.getElementById('patientPhone')?.value || '',
