@@ -5,7 +5,8 @@
 // 🔑 SUPABASE CONFIGURATION
 const SUPABASE_CONFIG = {
     URL: 'https://iihgacjyaxtkvzpbprcq.supabase.co',
-    KEY: 'sb_publishable_DGfx4CeHnmtUPiYAKWiAg_WAhPz...' // ← YOUR KEY
+    KEY: // 🔑 USE THIS IN YOUR script.js RIGHT NOW!
+const SUPABASE_KEY = 'sb_publishable_eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlpaGdhY2p5YXh0a3Z6cGJwcmNxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzA2NDU2MTEsImV4cCI6MjA4NjIyMTYxMX0.nNN5abbsrDGBIpNGm7fQTN8EcpkmJxUL6lXRUsqbMnY';
 };
 
 // Initialize database connection
