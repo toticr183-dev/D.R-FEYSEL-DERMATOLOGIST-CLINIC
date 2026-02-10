@@ -364,6 +364,10 @@
                 <div class="booking-form">
                     <form id="appointmentForm">
                         <div class="form-group">
+                            <form id="appointmentForm" onsubmit="return false">
+    <!-- Your existing form fields stay exactly as they are -->
+    <!-- Don't change anything else! -->
+</form>
                             <label for="patientName"><i class="fas fa-user"></i> Full Name</label>
                             <input type="text" id="patientName" placeholder="Enter your full name" required>
                         </div>
@@ -410,7 +414,7 @@
                             <textarea id="symptoms" rows="3" placeholder="Briefly describe your symptoms or concerns"></textarea>
                         </div>
                         
-                        <button type="submit" class="btn btn-primary btn-block">
+                        <button type="button" class="btn btn-primary btn-block">
                             <i class="fas fa-paper-plane"></i> Book Appointment Now
                         </button>
                        
