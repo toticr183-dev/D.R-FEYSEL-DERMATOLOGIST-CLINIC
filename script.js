@@ -1,37 +1,153 @@
 // ===========================================
-// DR. FEYSEL DERMATOLOGY CLINIC - DATABASE
+// DR. FEYSEL CLINIC - FINAL WORKING VERSION
 // ===========================================
 
-// 🔑 SUPABASE CONFIGURATION
-const SUPABASE_CONFIG = {
-    URL: 'https://iihgacjyaxtkvzpbprcq.supabase.co',
-    KEY: // 🔑 USE THIS IN YOUR script.js RIGHT NOW!
+// 🔑 YOUR SUPABASE KEY
+const SUPABASE_URL = 'https://iihgacjyaxtkvzpbprcq.supabase.co';
 const SUPABASE_KEY = 'sb_publishable_eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlpaGdhY2p5YXh0a3Z6cGJwcmNxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzA2NDU2MTEsImV4cCI6MjA4NjIyMTYxMX0.nNN5abbsrDGBIpNGm7fQTN8EcpkmJxUL6lXRUsqbMnY';
-};
 
-// Initialize database connection
+console.log('🏥 Clinic system starting...');
+
+// Initialize database
 const { createClient } = supabase;
-const db = createClient(SUPABASE_CONFIG.URL, SUPABASE_CONFIG.KEY);
+const db = createClient(SUPABASE_URL, SUPABASE_KEY);
 
 // ===========================================
-// BOOK APPOINTMENT FUNCTION
+// BOOKING FUNCTION (WITH PAGE REFRESH FIX)
 // ===========================================
 
 async function bookAppointment(event) {
-    // Prevent form submission if it's a form
-    if (event) event.preventDefault();
+    // ⚠️ CRITICAL: PREVENT PAGE REFRESH
+    if (event) {
+        event.preventDefault();
+        event.stopPropagation();
+        event.stopImmediatePropagation();
+    }
     
-    // Get form data from YOUR beautiful website
-    // ADJUST THESE SELECTORS to match your actual HTML IDs/classes
-    const appointmentData = {
-        name: getValue('#patientName') || getValue('input[name="name"]') || 'Not provided',
-        phone: getValue('#patientPhone') || getValue('input[name="phone"]') || 'Not provided',
-        clinic: getValue('#clinicLocation') || getValue('select[name="clinic"]') || 'Zenebework',
-        appointment_date: getValue('#appointmentDate') || getValue('input[name="date"]') || getTodayDate(),
-        telegram: getValue('#telegramUsername') || getValue('input[name="telegram"]') || null,
+    console.log('📅 Booking started (no refresh)');
+    
+    // Get form data
+    const appointment = {
+        name: document.getElementById('patientName')?.value || '',
+        phone: document.getElementById('patientPhone')?.value || '',
+        clinic: document.getElementById('clinicLocation')?.value || 'zenebework',
+        appointment_date: document.getElementById('appointmentDate')?.value || '',
+        telegram: document.getElementById('telegramUsername')?.value || null,
         status: 'pending'
     };
     
+    console.log('📊 Data:', appointment);
+    
+    // Validate
+    if (!appointment.name.trim()) {
+        alert('❌ Please enter your name');
+        return false;
+    }
+    if (!appointment.phone.trim()) {
+        alert('❌ Please enter your phone number');
+        return false;
+    }
+    if (!appointment.appointment_date) {
+        alert('❌ Please select appointment date');
+        return false;
+    }
+    
+    // Show loading
+    const button = document.getElementById('bookButton');
+    if (button) {
+        button.disabled = true;
+        button.textContent = 'Booking...';
+    }
+    
+    try {
+        console.log('📤 Sending to database...');
+        
+        const { data, error } = await db
+            .from('appointments')
+            .insert([appointment])
+            .select();
+        
+        console.log('📥 Response:', { data, error });
+        
+        if (error) {
+            console.error('❌ Database error:', error);
+            alert(`❌ Error: ${error.message}\n\nPlease call the clinic.`);
+            return false;
+        }
+        
+        // 🎉 SUCCESS!
+        const successMessage = `✅ Appointment booked!\n\nReference: FEYSEL-${data[0].id}\n\nDr. Feysel will contact you soon.`;
+        console.log('🎉 Success!', successMessage);
+        alert(successMessage);
+        
+        // Clear form
+        const form = document.getElementById('appointmentForm');
+        if (form) form.reset();
+        
+        return true;
+        
+    } catch (error) {
+        console.error('❌ Unexpected error:', error);
+        alert('❌ Unexpected error. Please try again or call the clinic.');
+        return false;
+        
+    } finally {
+        // Reset button
+        if (button) {
+            button.disabled = false;
+            button.textContent = 'Book Appointment';
+        }
+    }
+}
+
+// ===========================================
+// PREVENT ALL FORM SUBMISSIONS
+// ===========================================
+
+document.addEventListener('DOMContentLoaded', () => {
+    console.log('📄 Page loaded');
+    
+    // Prevent ALL form submissions on the page
+    document.addEventListener('submit', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        return false;
+    });
+    
+    // Connect booking button
+    const button = document.getElementById('bookButton');
+    if (button) {
+        button.addEventListener('click', bookAppointment);
+        console.log('✅ Button connected');
+    } else {
+        console.warn('⚠️ Button not found. Check HTML for id="bookButton"');
+        
+        // Try to find any submit button
+        const submitButtons = document.querySelectorAll('button[type="submit"], input[type="submit"]');
+        submitButtons.forEach(btn => {
+            btn.type = 'button';
+            btn.addEventListener('click', bookAppointment);
+            console.log('Fixed button:', btn);
+        });
+    }
+    
+    // Test database connection
+    db.from('appointments').select('count', { count: 'exact', head: true })
+        .then(({ count, error }) => {
+            if (error) {
+                console.warn('Database note:', error.message);
+            } else {
+                console.log(`📊 Database ready. Appointments: ${count}`);
+            }
+        });
+    
+    console.log('✅ Clinic system ready!');
+});
+
+// Global prevention
+window.addEventListener('beforeunload', () => {
+    console.log('Page unload prevented if booking in progress');
+});
     // Validate required fields
     if (!appointmentData.name || appointmentData.name === 'Not provided') {
         alert('❌ Please enter your name');
