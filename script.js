@@ -148,11 +148,50 @@ document.addEventListener('DOMContentLoaded', () => {
         appointmentForm.addEventListener('submit', (e) => {
             e.preventDefault();
             bookAppointment(e);
-            return false;
         });
         console.log('✅ Form submission prevented');
     }
     
+    // Test database connection
+    setTimeout(() => {
+        db.from('appointments').select('count', { count: 'exact', head: true })
+            .then(({ count, error }) => {
+                if (error) {
+                    console.warn('Database connection test:', error.message);
+                } else {
+                    console.log(`✅ Database connected. Total appointments: ${count}`);
+                }
+            });
+    }, 1000);
+    
+    console.log('✅ Clinic system initialized for YOUR HTML');
+});
+
+// ===========================================
+// DEBUG HELPERS
+// ===========================================
+
+// Add this to test if script is running
+console.log('✅ script.js loaded successfully');
+
+// Test function you can run from browser console
+window.testBooking = function() {
+    console.log('🧪 Manual test started...');
+    
+    // Fill test data
+    document.getElementById('patientName').value = 'Test Patient';
+    document.getElementById('patientPhone').value = '+251911223344';
+    document.getElementById('appointmentDate').value = '2024-03-25';
+    
+    // Trigger booking
+    bookAppointment(new Event('click'));
+};
+
+// Run a quick connection test on load
+window.addEventListener('load', () => {
+    console.log('🌐 Page fully loaded');
+    console.log('Supabase initialized?', !!db);
+});
     // Test database connection
     setTimeout(() => {
         db.from('appointments').select('count', { count: 'exact', head: true })
@@ -556,7 +595,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Appointment Form Submission
     const appointmentForm = document.getElementById('appointmentForm');
     if (appointmentForm) {
-        appointmentForm.addEventListener('submit', function(e) {
+        appointmentForm.addEventListener('button', function(e) {
             e.preventDefault();
             
             // Show loading
