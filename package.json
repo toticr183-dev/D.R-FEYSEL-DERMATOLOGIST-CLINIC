@@ -1,18 +1,14 @@
 {
-  "name": "dr-feysel-clinic-backend",
+  "name": "dr-feysel-clinic",
   "version": "1.0.0",
-  "description": "Dr. Feysel Dermatology Clinic Backend",
+  "description": "Dr. Feysel Dermatology Clinic",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js",
-    "dev": "nodemon server.js"
+    "start": "node server.js"
   },
   "dependencies": {
     "express": "^4.18.2",
     "cors": "^2.8.5"
-  },
-  "engines": {
-    "node": ">=16.0.0"
   }
 }
        
