@@ -8,7 +8,8 @@ console.log('%c🏥 DR. FEYSEL CLINIC - CLOUD MODE ACTIVE!', 'font-size: 20px; c
 // ===========================================
 // 🔥 YOUR LIVE RAILWAY CLOUD URL! 🔥
 // ===========================================
-const CLOUD_URL = 'https://dr-feysel-dermatologist-clinic-production.up.railway.app';
+// 🔥 UPDATE TO YOUR NEW WORKING URL!
+const CLOUD_URL = 'https://dr-feysel-dermatologist-clinic-copy-production.up.railway.app';
 const LOCAL_URL = 'http://localhost:3003';
 
 // Default to cloud
