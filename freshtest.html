@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+<body style="padding:20px; font-family:Arial;">
+    <h1>🎯 FRESH KEY TEST - COPY EXACTLY</h1>
+    
+    <div style="background:#e3f2fd; padding:20px; border-radius:10px; margin:20px 0;">
+        <h3>STEP 1: Copy THIS exact key (triple-click to select all):</h3>
+        <div id="keyToCopy" style="background:white; padding:15px; border:2px solid #0066cc; border-radius:5px; font-family:'Courier New', monospace; font-size:14px; user-select:all;">
+sb_publishable_eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlpaGdhY2p5YXh0a3Z6cGJwcmNxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzA2NDU2MTEsImV4cCI6MjA4NjIyMTYxMX0.nNN5abbsrDGBIpNGm7fQTN8EcpkmJxUL6lXRUsqbMnY
+        </div>
+        <button onclick="copyKey()" style="margin-top:10px; padding:10px 20px; background:#4caf50; color:white; border:none; border-radius:5px;">
+            📋 Click to Copy
+        </button>
+        <p id="copyStatus"></p>
+    </div>
+    
+    <div style="background:#fff3cd; padding:20px; border-radius:10px; margin:20px 0;">
+        <h3>STEP 2: Paste it here and test:</h3>
+        <textarea id="keyInput" rows="2" style="width:100%; padding:10px; font-family:'Courier New', monospace;" placeholder="Paste the key here..."></textarea>
+        <br><br>
+        <button onclick="analyzeKey()" style="padding:10px 20px; background:#ff9800; color:white; border:none; border-radius:5px;">
+            🔍 Analyze This Key
+        </button>
+        <div id="analysis" style="margin-top:15px;"></div>
+    </div>
+    
+    <div style="background:#f3e5f5; padding:20px; border-radius:10px;">
+        <h3>STEP 3: Test with Database</h3>
+        <button onclick="testWithDatabase()" style="padding:10px 20px; background:#9c27b0; color:white; border:none; border-radius:5px;">
+            🧪 Test Database Connection
+        </button>
+        <div id="testResult" style="margin-top:15px;"></div>
+    </div>
+
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+    <script>
+        // Function to copy key
+        function copyKey() {
+            const keyElement = document.getElementById('keyToCopy');
+            const text = keyElement.textContent.trim();
+            
+            navigator.clipboard.writeText(text).then(() => {
+                document.getElementById('copyStatus').innerHTML = '✅ Copied to clipboard!';
+                document.getElementById('keyInput').value = text;
+            }).catch(err => {
+                document.getElementById('copyStatus').innerHTML = '❌ Copy failed: ' + err;
+            });
+        }
+        
+        // Analyze the key
+        function analyzeKey() {
+            const key = document.getElementById('keyInput').value.trim();
+            const analysis = document.getElementById('analysis');
+            
+            if (!key) {
+                analysis.innerHTML = '<p style="color:red;">❌ No key entered</p>';
+                return;
+            }
+            
+            let html = '<h4>Key Analysis:</h4>';
+            html += `<p>Length: ${key.length} characters</p>`;
+            html += `<p>Starts with 'sb_publishable_': ${key.startsWith('sb_publishable_') ? '✅' : '❌'}</p>`;
+            
+            // Check first 20 characters
+            html += `<p>First 20 chars: <code>${key.substring(0, 20)}</code></p>`;
+            
+            // Check for invisible characters
+            html += '<p>Character codes at start:</p><ul>';
+            for (let i = 0; i < Math.min(20, key.length); i++) {
+                const char = key[i];
+                const code = key.charCodeAt(i);
+                html += `<li>Position ${i}: '${char === ' ' ? '[SPACE]' : char}' = ${code} ${code === 32 ? '(SPACE)' : ''}</li>`;
+            }
+            html += '</ul>';
+            
+            // Check if it matches exactly
+            const correctKey = 'sb_publishable_eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlpaGdhY2p5YXh0a3Z6cGJwcmNxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzA2NDU2MTEsImV4cCI6MjA4NjIyMTYxMX0.nNN5abbsrDGBIpNGm7fQTN8EcpkmJxUL6lXRUsqbMnY';
+            html += `<p>Matches exactly: ${key === correctKey ? '✅' : '❌'}</p>`;
+            
+            analysis.innerHTML = html;
+        }
+        
+        // Test with database
+        async function testWithDatabase() {
+            const key = document.getElementById('keyInput').value.trim();
+            const result = document.getElementById('testResult');
+            
+            if (!key.startsWith('sb_publishable_')) {
+                result.innerHTML = '<p style="color:red;">❌ Key must start with "sb_publishable_"</p>';
+                return;
+            }
+            
+            result.innerHTML = '<p>Connecting to database...</p>';
+            
+            try {
+                const db = window.supabase.createClient(
+                    'https://iihgacjyaxtkvzpbprcq.supabase.co',
+                    key
+                );
+                
+                // Simple test - just try to connect
+                const { error } = await db
+                    .from('appointments')
+                    .select('*', { count: 'exact', head: true });
+                
+                if (error) {
+                    if (error.message.includes('JWT')) {
+                        result.innerHTML = `
+                            <div style="color:orange;">
+                                <h4>⚠️ JWT Error</h4>
+                                <p>Key format is correct but content is invalid/expired.</p>
+                                <p><strong>You need a NEW key from Supabase!</strong></p>
+                                <p>Go to: <a href="https://app.supabase.com/project/iihgacjyaxtkvzpbprcq/settings/api" target="_blank">
+                                    Supabase API Settings
+                                </a></p>
+                            </div>
+                        `;
+                    } else {
+                        result.innerHTML = `<p style="color:red;">❌ Error: ${error.message}</p>`;
+                    }
+                } else {
+                    result.innerHTML = `
+                        <div style="color:green; background:#d4edda; padding:20px; border-radius:10px;">
+                            <h3>🎉 CONNECTION SUCCESS!</h3>
+                            <p>Database connection established successfully!</p>
+                            <p><strong>Now update your script.js with this key:</strong></p>
+                            <textarea style="width:100%; padding:10px; font-family:monospace; background:white;" rows="2">
+const SUPABASE_KEY = '${key}';
+                            </textarea>
+                        </div>
+                    `;
+                }
+            } catch (err) {
+                result.innerHTML = `<p style="color:red;">❌ Exception: ${err.message}</p>`;
+            }
+        }
+        
+        // Auto-copy on load
+        setTimeout(copyKey, 500);
+        setTimeout(() => {
+            analyzeKey();
+            testWithDatabase();
+        }, 1000);
+    </script>
+</body>
+</html>
