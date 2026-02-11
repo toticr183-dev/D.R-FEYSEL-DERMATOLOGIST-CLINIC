@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<body style="padding:20px; font-family:Arial;">
+    <h2>🧪 CLICK TEST - Is button working?</h2>
+    
+    <div style="background:#e3f2fd; padding:20px; border-radius:10px; margin:20px 0;">
+        <h3>Test 1: Simple Alert</h3>
+        <button onclick="alert('🎉 Button click works!')" 
+                style="padding:10px 20px; background:#4caf50; color:white; border:none; border-radius:5px;">
+            Click me - Should show alert
+        </button>
+    </div>
+    
+    <div style="background:#f3e5f5; padding:20px; border-radius:10px; margin:20px 0;">
+        <h3>Test 2: Your Actual Booking Button</h3>
+        <!-- Copy your ACTUAL button HTML here -->
+        <button type="button" class="btn btn-primary btn-block" 
+                onclick="testButtonClick()"
+                style="padding:15px; background:#2196f3; color:white; border:none; border-radius:5px; width:100%;">
+            <i class="fas fa-paper-plane"></i> Test Booking Button
+        </button>
+        <p id="buttonResult" style="margin-top:10px;"></p>
+    </div>
+    
+    <div style="background:#fff3cd; padding:20px; border-radius:10px;">
+        <h3>Test 3: Database Connection</h3>
+        <button onclick="testDatabase()" 
+                style="padding:10px 20px; background:#ff9800; color:white; border:none; border-radius:5px;">
+            Test Database
+        </button>
+        <div id="dbResult" style="margin-top:10px;"></div>
+    </div>
+
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+    <script>
+        // Database setup
+        const db = window.supabase.createClient(
+            'https://iihgacjyaxtkvzpbprcq.supabase.co',
+            'sb_publishable_eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlpaGdhY2p5YXh0a3Z6cGJwcmNxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzA2NDU2MTEsImV4cCI6MjA4NjIyMTYxMX0.nNN5abbsrDGBIpNGm7fQTN8EcpkmJxUL6lXRUsqbMnY'
+        );
+        
+        function testButtonClick() {
+            const result = document.getElementById('buttonResult');
+            result.innerHTML = '✅ Button click detected!';
+            result.style.color = 'green';
+        }
+        
+        async function testDatabase() {
+            const result = document.getElementById('dbResult');
+            result.innerHTML = 'Testing database...';
+            
+            try {
+                const { data, error } = await db
+                    .from('appointments')
+                    .insert([{
+                        name: 'Click Test',
+                        phone: '+251911223344',
+                        clinic: 'zenebework',
+                        appointment_date: '2024-03-25'
+                    }])
+                    .select();
+                
+                if (error) {
+                    result.innerHTML = `❌ Database error: ${error.message}`;
+                    result.style.color = 'red';
+                } else {
+                    result.innerHTML = `✅ Database WORKS! Created ID: ${data[0].id}`;
+                    result.style.color = 'green';
+                }
+            } catch (err) {
+                result.innerHTML = `❌ Exception: ${err.message}`;
+                result.style.color = 'red';
+            }
+        }
+        
+        console.log('Click test page loaded');
+    </script>
+</body>
+</html>
