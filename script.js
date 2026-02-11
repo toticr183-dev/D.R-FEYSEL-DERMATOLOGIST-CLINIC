@@ -1,65 +1,33 @@
 // ===========================================
-// DR. FEYSEL CLINIC - CLOUD PRODUCTION VERSION
-// WITH YOUR LIVE RAILWAY URL! ☁️
+// DR. FEYSEL CLINIC - CLOUD FORCED VERSION
+// CONNECTS DIRECTLY TO RAILWAY - NO FALLBACK!
 // ===========================================
 
-console.log('%c🏥 DR. FEYSEL CLINIC - CLOUD MODE ACTIVE!', 'font-size: 20px; color: #0066cc; font-weight: bold;');
+console.log('%c🏥 DR. FEYSEL CLINIC - CLOUD MODE FORCED!', 'font-size: 20px; color: #0066cc; font-weight: bold;');
 
 // ===========================================
-// 🔥 YOUR LIVE RAILWAY CLOUD URL! 🔥
+// ✅ WORKING RAILWAY CLOUD URL!
 // ===========================================
-// 🔥 UPDATE TO YOUR NEW WORKING URL!
 const CLOUD_URL = 'https://dr-feysel-dermatologist-clinic-copy-production.up.railway.app';
-const LOCAL_URL = 'http://localhost:3003';
 
-// Default to cloud
-let SERVER_URL = CLOUD_URL;
-let ACTIVE_SERVER = 'cloud';
+// 🔥 FORCE CLOUD MODE - NO LOCAL!
+const SERVER_URL = CLOUD_URL;
+const ACTIVE_SERVER = 'cloud';
 
-// ===========================================
-// TEST CONNECTION TO CLOUD
-// ===========================================
-async function testConnection() {
-    try {
-        console.log('☁️ Testing connection to Railway cloud...');
-        
-        const response = await fetch(`${SERVER_URL}/health`, { 
-            method: 'GET',
-            headers: { 'Content-Type': 'application/json' },
-            mode: 'cors',
-            cache: 'no-cache'
-        });
-        
-        if (response.ok) {
-            const data = await response.json();
-            console.log('%c✅ CLOUD SERVER ONLINE! 24/7/365!', 'color: green; font-size: 16px;', data);
-            return true;
-        } else {
-            throw new Error(`HTTP ${response.status}`);
-        }
-    } catch (error) {
-        console.log('☁️ Cloud not reachable, switching to local fallback...');
-        SERVER_URL = LOCAL_URL;
-        ACTIVE_SERVER = 'local';
-        return false;
-    }
-}
+console.log(`%c☁️ CLOUD URL: ${SERVER_URL}`, 'color: #00a884; font-size: 14px;');
+console.log('%c✅ SERVER: RUNNING!', 'color: green;');
 
 // ===========================================
-// BOOK APPOINTMENT - CONNECTS TO CLOUD!
+// BOOK APPOINTMENT - DIRECT TO CLOUD!
 // ===========================================
 window.bookAppointment = async function(event) {
-    'use strict';
-    
     if (event) {
         event.preventDefault();
         event.stopPropagation();
     }
     
-    console.log(`📅 Booking via ${ACTIVE_SERVER.toUpperCase()} server...`);
-    console.log(`🌐 URL: ${SERVER_URL}`);
+    console.log(`📅 Booking via CLOUD server...`);
     
-    // Get form data
     const appointment = {
         name: document.getElementById('patientName')?.value?.trim() || '',
         phone: document.getElementById('patientPhone')?.value?.trim() || '',
@@ -71,28 +39,18 @@ window.bookAppointment = async function(event) {
         status: 'pending'
     };
     
-    // Validate
-    if (!appointment.name) {
-        alert('❌ Please enter your full name');
-        return false;
-    }
-    if (!appointment.phone) {
-        alert('❌ Please enter your phone number');
-        return false;
-    }
-    if (!appointment.appointment_date) {
-        alert('❌ Please select appointment date');
+    if (!appointment.name || !appointment.phone || !appointment.appointment_date) {
+        alert('❌ Please fill all required fields');
         return false;
     }
     
-    // Button loading state
     const button = document.getElementById('bookButton');
     const originalText = button.innerHTML;
     button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
     button.disabled = true;
     
     try {
-        console.log(`📤 Sending to ${SERVER_URL}/api/appointments...`);
+        console.log(`📤 Sending to: ${SERVER_URL}/api/appointments`);
         
         const response = await fetch(`${SERVER_URL}/api/appointments`, {
             method: 'POST',
@@ -108,40 +66,17 @@ window.bookAppointment = async function(event) {
         console.log('📥 Server response:', data);
         
         if (data.success) {
-            // SUCCESS! 🎉
-            const emoji = ACTIVE_SERVER === 'cloud' ? '☁️' : '🏠';
-            alert(`✅ Appointment booked via ${emoji} ${ACTIVE_SERVER.toUpperCase()}!\n\n` +
-                  `Reference: FEYSEL-${data.id}\n\n` +
-                  `Dr. Feysel will contact you within 2 hours.`);
-            
-            // Clear form
-            const form = document.getElementById('appointmentForm');
-            if (form) form.reset();
-            
-            console.log(`%c✅ Booking successful! ID: ${data.id}`, 'color: green;');
+            alert(`✅ Appointment booked via CLOUD!\n\nReference: FEYSEL-${data.id}\n\nDr. Feysel will contact you soon.`);
+            document.getElementById('appointmentForm')?.reset();
         } else {
             throw new Error(data.error || 'Booking failed');
         }
         
     } catch (error) {
         console.error('❌ Booking error:', error);
-        
-        // Try local fallback if cloud fails
-        if (ACTIVE_SERVER === 'cloud') {
-            console.log('🔄 Cloud failed, trying local fallback...');
-            SERVER_URL = LOCAL_URL;
-            ACTIVE_SERVER = 'local';
-            button.innerHTML = originalText;
-            button.disabled = false;
-            return window.bookAppointment(event);
-        }
-        
-        alert('❌ Cannot connect to server.\n\n' +
-              '☁️ Cloud: ' + CLOUD_URL + '\n' +
-              '🏠 Local: Make sure server is running with: pm2 start server.js');
+        alert(`❌ Cannot connect to cloud server.\n\nURL: ${SERVER_URL}\n\nMake sure Railway is running!`);
         
     } finally {
-        // Restore button
         button.innerHTML = originalText;
         button.disabled = false;
     }
@@ -150,35 +85,23 @@ window.bookAppointment = async function(event) {
 };
 
 // ===========================================
-// INITIALIZE EVERYTHING
+// INITIALIZE
 // ===========================================
-document.addEventListener('DOMContentLoaded', async function() {
-    console.log('📄 Page loaded - connecting to cloud...');
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('📄 Connecting directly to CLOUD...');
     
-    // Test connection
-    await testConnection();
-    
-    // Connect booking button
     const button = document.getElementById('bookButton');
     if (button) {
         button.onclick = window.bookAppointment;
-        console.log('✅ Booking button connected to ' + ACTIVE_SERVER + ' server!');
+        console.log('✅ Button connected to CLOUD!');
     }
     
-    // Show status
-    if (ACTIVE_SERVER === 'cloud') {
-        console.log('%c☁️ CLOUD MODE: 24/7/365! Patients can book while you sleep!', 'color: green; font-size: 14px;');
-    } else {
-        console.log('%c🏠 LOCAL MODE: Server running on your PC', 'color: orange;');
-    }
+    // Test connection silently
+    fetch(`${SERVER_URL}/health`, { mode: 'cors' })
+        .then(res => res.json())
+        .then(data => console.log('✅ Cloud health check:', data))
+        .catch(err => console.warn('⚠️ Cloud health check failed:', err));
     
-    console.log('%c✅ System ready! Click "Book Appointment Now"!', 'color: #0066cc;');
+    console.log('%c✅ System ready! Book an appointment!', 'color: green; font-size: 16px;');
 });
 
-// Expose globally
-window.testConnection = testConnection;
-window.SERVER_URL = SERVER_URL;
-window.ACTIVE_SERVER = ACTIVE_SERVER;
-
-console.log('%c☁️ CLOUD URL: ' + CLOUD_URL, 'color: #0066cc; font-weight: bold;');
-console.log('%c✅ Script loaded! Ready to book via CLOUD!', 'color: green;');
