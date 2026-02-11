@@ -1,8 +1,6 @@
-cat > railway.json << 'EOF'
 {
-  "$schema": "https://railway.app/railway.schema.json",
   "build": {
-    "builder": "nixpacks",
+    "builder": "NIXPACKS",
     "buildCommand": "npm install"
   },
   "deploy": {
@@ -11,8 +9,3 @@ cat > railway.json << 'EOF'
     "healthcheckPath": "/health"
   }
 }
-EOF
-
-git add railway.json
-git commit -m "Add Railway config"
-git push
