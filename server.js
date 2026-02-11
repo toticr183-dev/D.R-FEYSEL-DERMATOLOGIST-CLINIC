@@ -107,3 +107,16 @@ app.listen(PORT, '0.0.0.0', () => {
     console.log(`🌍 Health: /health`);
     console.log('='.repeat(50) + '\n');
 });
+// Force immediate healthcheck response
+app.get('/health', (req, res) => {
+  res.status(200).json({ 
+    status: 'healthy', 
+    time: Date.now(),
+    message: 'Dr. Feysel Clinic is running!'
+  });
+});
+
+// Add a root route for quick testing
+app.get('/', (req, res) => {
+  res.send('Dr. Feysel Clinic API is running!');
+});
