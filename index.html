@@ -361,62 +361,63 @@
                     </div>
                 </div>
 
-                <div class="booking-form">
-                    <form id="appointmentForm">
-                        <div class="form-group">
-                            <form id="appointmentForm" onsubmit="return false">
-    <!-- Your existing form fields stay exactly as they are -->
-    <!-- Don't change anything else! -->
-</form>
-                            <label for="patientName"><i class="fas fa-user"></i> Full Name</label>
-                            <input type="text" id="patientName" placeholder="Enter your full name" required>
-                        </div>
+               <div class="booking-form">
+    <!-- ONLY ONE form - NO NESTED forms! -->
+    <form id="appointmentForm" onsubmit="return false">
+        
+        <div class="form-group">
+            <label for="patientName"><i class="fas fa-user"></i> Full Name</label>
+            <input type="text" id="patientName" placeholder="Enter your full name" required>
+        </div>
 
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="patientPhone"><i class="fas fa-phone"></i> Phone Number</label>
-                                <input type="tel" id="patientPhone" placeholder="+251 ___ __ __ __" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="patientTelegram"><i class="fab fa-telegram"></i> Telegram Username</label>
-                                <input type="text" id="patientTelegram" placeholder="@username (optional)">
-                            </div>
-                        </div>
+        <div class="form-row">
+            <div class="form-group">
+                <label for="patientPhone"><i class="fas fa-phone"></i> Phone Number</label>
+                <input type="tel" id="patientPhone" placeholder="+251 ___ __ __ __" required>
+            </div>
+            <div class="form-group">
+                <label for="patientTelegram"><i class="fab fa-telegram"></i> Telegram Username</label>
+                <input type="text" id="patientTelegram" placeholder="@username (optional)">
+            </div>
+        </div>
 
-                        <div class="form-group">
-                            <label for="appointmentType"><i class="fas fa-calendar-alt"></i> Appointment Type</label>
-                            <select id="appointmentType" required>
-                                <option value="">Select type</option>
-                                <option value="consultation">First Consultation</option>
-                                <option value="followup">Follow-up Visit</option>
-                                <option value="emergency">Emergency</option>
-                                <option value="live">Join Live Session</option>
-                            </select>
-                        </div>
+        <div class="form-group">
+            <label for="appointmentType"><i class="fas fa-calendar-alt"></i> Appointment Type</label>
+            <select id="appointmentType" required>
+                <option value="">Select type</option>
+                <option value="consultation">First Consultation</option>
+                <option value="followup">Follow-up Visit</option>
+                <option value="emergency">Emergency</option>
+                <option value="live">Join Live Session</option>
+            </select>
+        </div>
 
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="clinicLocation"><i class="fas fa-map-marker-alt"></i> Clinic Location</label>
-                                <select id="clinicLocation">
-                                    <option value="zenebework">Zenebework Clinic</option>
-                                    <option value="bole">Bole Clinic</option>
-                                    <option value="online">Online Only</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="appointmentDate"><i class="fas fa-clock"></i> Preferred Date</label>
-                                <input type="date" id="appointmentDate" required>
-                            </div>
-                        </div>
+        <div class="form-row">
+            <div class="form-group">
+                <label for="clinicLocation"><i class="fas fa-map-marker-alt"></i> Clinic Location</label>
+                <select id="clinicLocation">
+                    <option value="zenebework">Zenebework Clinic</option>
+                    <option value="bole">Bole Clinic</option>
+                    <option value="online">Online Only</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="appointmentDate"><i class="fas fa-clock"></i> Preferred Date</label>
+                <input type="date" id="appointmentDate" required>
+            </div>
+        </div>
 
-                        <div class="form-group">
-                            <label for="symptoms"><i class="fas fa-file-medical-alt"></i> Describe Your Condition</label>
-                            <textarea id="symptoms" rows="3" placeholder="Briefly describe your symptoms or concerns"></textarea>
-                        </div>
-                        
-                        <button type="button" class="btn btn-primary btn-block">
-                            <i class="fas fa-paper-plane"></i> Book Appointment Now
-                        </button>
+        <div class="form-group">
+            <label for="symptoms"><i class="fas fa-file-medical-alt"></i> Describe Your Condition</label>
+            <textarea id="symptoms" rows="3" placeholder="Briefly describe your symptoms or concerns"></textarea>
+        </div>
+        
+        <button type="button" class="btn btn-primary btn-block">
+            <i class="fas fa-paper-plane"></i> Book Appointment Now
+        </button>
+        
+    </form>  <!-- ← ONLY ONE closing tag! -->
+</div>
                        
  
                         
