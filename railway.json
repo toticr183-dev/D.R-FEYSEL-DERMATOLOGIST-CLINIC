@@ -7,7 +7,6 @@
     "startCommand": "node server.js",
     "restartPolicyType": "ON_FAILURE",
     "healthcheckPath": "/health",
-    "healthcheckTimeout": 500,
-    "healthcheckInterval": 30
+    "healthcheckTimeout": 300
   }
 }
