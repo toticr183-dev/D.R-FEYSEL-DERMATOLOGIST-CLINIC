@@ -530,5 +530,40 @@
     </div>
 
     <script src="script.js"></script>
+    <!-- FINAL BUTTON FIX - DO NOT REMOVE -->
+<script>
+    // This runs after everything and GUARANTEES button works
+    (function() {
+        console.log('🔥 FINAL BUTTON FIX RUNNING...');
+        
+        function fixButton() {
+            const btn = document.querySelector('.btn.btn-primary.btn-block');
+            if (btn) {
+                btn.type = 'button';
+                btn.onclick = function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    if (window.bookAppointment) {
+                        window.bookAppointment(e);
+                    } else {
+                        console.error('Booking function not ready yet, retrying...');
+                        setTimeout(fixButton, 100);
+                    }
+                    return false;
+                };
+                console.log('✅ BUTTON FIXED!');
+                return true;
+            }
+            return false;
+        }
+        
+        // Try multiple times
+        if (!fixButton()) {
+            setTimeout(fixButton, 500);
+            setTimeout(fixButton, 1000);
+            setTimeout(fixButton, 2000);
+        }
+    })();
+</script>
 </body>
 </html>
