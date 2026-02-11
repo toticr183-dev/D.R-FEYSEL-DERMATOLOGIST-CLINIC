@@ -10,6 +10,7 @@ console.log('🚀 SIMPLE WORKING VERSION LOADED');
 // ===========================================
 const SERVER_URL = 'http://localhost:3003';
 const API_URL = SERVER_URL + '/api';
+const CLOUD_URL = 'https://dr-feysel-dermatologist-clinic-production.up.railway.app';
 
 // ===========================================
 // 2. BOOKING FUNCTION - SUPER SIMPLE
