@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<body style="padding:20px;">
+    <h2>🎯 FINAL TEST - With Correct Key</h2>
+    
+    <button onclick="testWithPrefix()" style="padding:15px; background:#4caf50; color:white; border:none; border-radius:5px;">
+        TEST WITH sb_publishable_ PREFIX
+    </button>
+    
+    <div id="result" style="margin-top:20px; padding:20px; background:#f5f5f5; border-radius:10px;"></div>
+
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+    <script>
+        async function testWithPrefix() {
+            const result = document.getElementById('result');
+            result.innerHTML = 'Testing with correct key format...';
+            
+            // CORRECT KEY with prefix
+            const CORRECT_KEY = 'sb_publishable_eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlpaGdhY2p5YXh0a3Z6cGJwcmNxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzA2NDU2MTEsImV4cCI6MjA4NjIyMTYxMX0.nNN5abbsrDGBIpNGm7fQTN8EcpkmJxUL6lXRUsqbMnY';
+            
+            const db = window.supabase.createClient(
+                'https://iihgacjyaxtkvzpbprcq.supabase.co',
+                CORRECT_KEY
+            );
+            
+            try {
+                const { data, error } = await db
+                    .from('appointments')
+                    .insert([{
+                        name: 'Final Test with Correct Key',
+                        phone: '+251911223344',
+                        clinic: 'zenebework',
+                        appointment_date: '2024-03-25'
+                    }])
+                    .select();
+                
+                if (error) {
+                    result.innerHTML = `
+                        <div style="color:red;">
+                            ❌ Still failing: ${error.message}
+                            <br><br>
+                            <strong>Possible issues:</strong>
+                            <ol>
+                                <li>Key might be expired</li>
+                                <li>Need new key from Supabase</li>
+                                <li>RLS policies issue</li>
+                            </ol>
+                        </div>
+                    `;
+                } else {
+                    result.innerHTML = `
+                        <div style="color:green; background:#d4edda; padding:20px; border-radius:10px;">
+                            <h3>🎉 SUCCESS! SYSTEM WORKS!</h3>
+                            <p>Created appointment ID: <strong>${data[0].id}</strong></p>
+                            <p>✅ Database connection: WORKING</p>
+                            <p>✅ API key: CORRECT</p>
+                            <p>✅ RLS policies: WORKING</p>
+                            <br>
+                            <p><strong>NOW UPDATE YOUR script.js WITH THIS KEY!</strong></p>
+                            <code style="background:white; padding:10px; display:block;">
+                                const SUPABASE_KEY = '${CORRECT_KEY}';
+                            </code>
+                        </div>
+                    `;
+                }
+            } catch (err) {
+                result.innerHTML = `<div style="color:red;">❌ Exception: ${err.message}</div>`;
+            }
+        }
+        
+        // Auto-test
+        setTimeout(testWithPrefix, 1000);
+    </script>
+</body>
+</html>
