@@ -1,0 +1,18 @@
+cat > railway.json << 'EOF'
+{
+  "$schema": "https://railway.app/railway.schema.json",
+  "build": {
+    "builder": "nixpacks",
+    "buildCommand": "npm install"
+  },
+  "deploy": {
+    "startCommand": "node server.js",
+    "restartPolicyType": "ON_FAILURE",
+    "healthcheckPath": "/health"
+  }
+}
+EOF
+
+git add railway.json
+git commit -m "Add Railway config"
+git push
