@@ -1,260 +1,137 @@
 // ===========================================
-// DR. FEYSEL CLINIC - RAILWAY PRODUCTION SERVER
-// COMPLETE FIX - 100% WORKING ON CLOUD!
+// DR. FEYSEL CLINIC - CLOUD PRODUCTION VERSION
+// CONNECTS TO RAILWAY 24/7/365!
 // ===========================================
 
-const express = require('express');
-const cors = require('cors');
-const fs = require('fs');
-const path = require('path');
+console.log('%c🏥 DR. FEYSEL CLINIC - CLOUD MODE', 'font-size: 20px; color: #0066cc;');
 
-// Initialize Express
-const app = express();
-const PORT = process.env.PORT || 3003; // CRITICAL: Railway uses dynamic PORT!
+// ===========================================
+// 1. YOUR RAILWAY CLOUD URL - THIS IS CRITICAL!
+// ===========================================
+const CLOUD_URL = 'https://dr-feysel-dermatologist-clinic-production.up.railway.app';
+const LOCAL_URL = 'http://localhost:3003';
 
-// ========== MIDDLEWARE ==========
-app.use(cors({
-    origin: '*',
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization']
-}));
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+// Default to cloud
+let SERVER_URL = CLOUD_URL;
+let ACTIVE_SERVER = 'cloud';
 
-// ========== DATA STORAGE ==========
-const DATA_FILE = path.join(__dirname, 'appointments.json');
-
-// Load appointments from file
-function loadAppointments() {
+// ===========================================
+// 2. TEST CONNECTION
+// ===========================================
+async function testConnection() {
     try {
-        if (fs.existsSync(DATA_FILE)) {
-            const data = fs.readFileSync(DATA_FILE, 'utf8');
-            return JSON.parse(data);
+        const response = await fetch(`${SERVER_URL}/health`, { 
+            method: 'GET',
+            headers: { 'Content-Type': 'application/json' },
+            mode: 'cors',
+            cache: 'no-cache'
+        });
+        
+        if (response.ok) {
+            const data = await response.json();
+            console.log(`%c☁️ CLOUD SERVER ONLINE!`, 'color: green; font-size: 16px;', data);
+            return true;
         }
-    } catch (err) {
-        console.log('📁 Creating new data file...');
+    } catch (error) {
+        console.log('☁️ Cloud not reachable, using local fallback...');
+        SERVER_URL = LOCAL_URL;
+        ACTIVE_SERVER = 'local';
     }
-    return { appointments: [], nextId: 1 };
+    return false;
 }
 
-// Save appointments to file
-function saveAppointments(data) {
-    try {
-        fs.writeFileSync(DATA_FILE, JSON.stringify(data, null, 2));
-        console.log('💾 Data saved successfully');
-        return true;
-    } catch (err) {
-        console.error('❌ Error saving data:', err);
+// ===========================================
+// 3. BOOK APPOINTMENT
+// ===========================================
+window.bookAppointment = async function(event) {
+    if (event) {
+        event.preventDefault();
+        event.stopPropagation();
+    }
+    
+    console.log(`📅 Booking via ${ACTIVE_SERVER}...`);
+    
+    const appointment = {
+        name: document.getElementById('patientName')?.value?.trim() || '',
+        phone: document.getElementById('patientPhone')?.value?.trim() || '',
+        telegram: document.getElementById('patientTelegram')?.value?.trim() || '',
+        appointment_type: document.getElementById('appointmentType')?.value || 'consultation',
+        clinic: document.getElementById('clinicLocation')?.value || 'zenebework',
+        appointment_date: document.getElementById('appointmentDate')?.value || '',
+        symptoms: document.getElementById('symptoms')?.value?.trim() || '',
+        status: 'pending'
+    };
+    
+    if (!appointment.name || !appointment.phone || !appointment.appointment_date) {
+        alert('❌ Please fill all required fields');
         return false;
     }
-}
-
-// ========== ROOT ROUTE - TEST IF SERVER IS RUNNING ==========
-app.get('/', (req, res) => {
-    res.json({
-        name: 'Dr. Feysel Clinic API',
-        status: 'running',
-        version: '1.0.0',
-        environment: process.env.NODE_ENV || 'production',
-        timestamp: new Date().toISOString(),
-        endpoints: {
-            health: '/health',
-            book: 'POST /api/appointments',
-            admin: 'GET /api/admin/appointments',
-            single: 'GET /api/appointments/:id'
-        }
-    });
-});
-
-// ========== HEALTH CHECK - CRITICAL FOR RAILWAY! ==========
-app.get('/health', (req, res) => {
-    const data = loadAppointments();
-    res.status(200).json({
-        status: 'healthy',
-        server: 'Dr. Feysel Clinic',
-        appointments: data.appointments.length,
-        port: PORT,
-        uptime: process.uptime(),
-        memory: process.memoryUsage(),
-        timestamp: new Date().toISOString()
-    });
-});
-
-// ========== BOOK APPOINTMENT ==========
-app.post('/api/appointments', (req, res) => {
-    console.log('📥 Booking request received:', req.body);
+    
+    const button = document.getElementById('bookButton');
+    const originalText = button.innerHTML;
+    button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
+    button.disabled = true;
     
     try {
-        const data = loadAppointments();
+        console.log(`📤 Sending to ${SERVER_URL}...`);
         
-        // Validate required fields
-        if (!req.body.name || !req.body.phone || !req.body.appointment_date) {
-            return res.status(400).json({
-                success: false,
-                error: 'Missing required fields'
-            });
-        }
-        
-        const appointment = {
-            id: data.nextId++,
-            name: req.body.name.trim(),
-            phone: req.body.phone.trim(),
-            telegram: req.body.telegram || '',
-            appointment_type: req.body.appointment_type || 'consultation',
-            clinic: req.body.clinic || 'zenebework',
-            appointment_date: req.body.appointment_date,
-            symptoms: req.body.symptoms || '',
-            status: 'pending',
-            created_at: new Date().toISOString()
-        };
-        
-        data.appointments.push(appointment);
-        
-        if (saveAppointments(data)) {
-            console.log(`✅ Appointment booked! ID: ${appointment.id}, Name: ${appointment.name}`);
-            res.status(201).json({
-                success: true,
-                id: appointment.id,
-                message: 'Appointment booked successfully'
-            });
-        } else {
-            throw new Error('Failed to save appointment');
-        }
-        
-    } catch (error) {
-        console.error('❌ Booking error:', error);
-        res.status(500).json({
-            success: false,
-            error: 'Internal server error'
+        const response = await fetch(`${SERVER_URL}/api/appointments`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(appointment)
         });
-    }
-});
-
-// ========== GET ALL APPOINTMENTS (ADMIN) ==========
-app.get('/api/admin/appointments', (req, res) => {
-    try {
-        const data = loadAppointments();
-        res.json(data.appointments);
-    } catch (error) {
-        console.error('❌ Error loading appointments:', error);
-        res.status(500).json({ error: 'Failed to load appointments' });
-    }
-});
-
-// ========== GET SINGLE APPOINTMENT ==========
-app.get('/api/appointments/:id', (req, res) => {
-    try {
-        const data = loadAppointments();
-        const appointment = data.appointments.find(a => a.id === parseInt(req.params.id));
         
-        if (appointment) {
-            res.json(appointment);
+        const data = await response.json();
+        console.log('📥 Response:', data);
+        
+        if (data.success) {
+            alert(`✅ Appointment booked via CLOUD!\n\nReference: FEYSEL-${data.id}\n\nDr. Feysel will contact you soon.`);
+            document.getElementById('appointmentForm')?.reset();
         } else {
-            res.status(404).json({ error: 'Appointment not found' });
+            throw new Error(data.error || 'Booking failed');
         }
+        
     } catch (error) {
-        console.error('❌ Error fetching appointment:', error);
-        res.status(500).json({ error: 'Failed to fetch appointment' });
-    }
-});
-
-// ========== UPDATE APPOINTMENT STATUS ==========
-app.put('/api/appointments/:id', (req, res) => {
-    try {
-        const data = loadAppointments();
-        const index = data.appointments.findIndex(a => a.id === parseInt(req.params.id));
+        console.error('❌ Error:', error);
         
-        if (index === -1) {
-            return res.status(404).json({ error: 'Appointment not found' });
-        }
-        
-        data.appointments[index] = {
-            ...data.appointments[index],
-            ...req.body,
-            updated_at: new Date().toISOString()
-        };
-        
-        if (saveAppointments(data)) {
-            res.json({
-                success: true,
-                appointment: data.appointments[index]
-            });
+        if (ACTIVE_SERVER === 'cloud') {
+            alert('❌ Cloud server error. Trying local server...');
+            SERVER_URL = LOCAL_URL;
+            ACTIVE_SERVER = 'local';
+            button.innerHTML = originalText;
+            button.disabled = false;
+            return window.bookAppointment(event);
         } else {
-            throw new Error('Failed to update appointment');
+            alert('❌ Cannot connect to server. Please ensure:\n\n☁️ Railway: https://dr-feysel-dermatologist-clinic-production.up.railway.app/health\n🏠 Local: pm2 start server.js');
         }
         
-    } catch (error) {
-        console.error('❌ Error updating appointment:', error);
-        res.status(500).json({ error: 'Failed to update appointment' });
+    } finally {
+        button.innerHTML = originalText;
+        button.disabled = false;
     }
-});
+    
+    return false;
+};
 
-// ========== DELETE APPOINTMENT ==========
-app.delete('/api/appointments/:id', (req, res) => {
-    try {
-        const data = loadAppointments();
-        const filtered = data.appointments.filter(a => a.id !== parseInt(req.params.id));
-        
-        if (filtered.length === data.appointments.length) {
-            return res.status(404).json({ error: 'Appointment not found' });
-        }
-        
-        data.appointments = filtered;
-        
-        if (saveAppointments(data)) {
-            res.json({ success: true, message: 'Appointment deleted' });
-        } else {
-            throw new Error('Failed to delete appointment');
-        }
-        
-    } catch (error) {
-        console.error('❌ Error deleting appointment:', error);
-        res.status(500).json({ error: 'Failed to delete appointment' });
+// ===========================================
+// 4. INITIALIZE
+// ===========================================
+window.addEventListener('DOMContentLoaded', async function() {
+    console.log('📄 Connecting to CLOUD server...');
+    
+    await testConnection();
+    
+    const button = document.getElementById('bookButton');
+    if (button) {
+        button.onclick = window.bookAppointment;
+        console.log('✅ Button connected to CLOUD!');
     }
+    
+    console.log(`%c✅ System ready! Using ${ACTIVE_SERVER} server`, 'color: green;');
 });
 
-// ========== ERROR HANDLING MIDDLEWARE ==========
-app.use((req, res) => {
-    res.status(404).json({
-        error: 'Route not found',
-        message: 'The requested endpoint does not exist',
-        available: ['/', '/health', '/api/appointments', '/api/admin/appointments']
-    });
-});
-
-app.use((err, req, res, next) => {
-    console.error('❌ Server error:', err);
-    res.status(500).json({
-        error: 'Internal server error',
-        message: err.message
-    });
-});
-
-// ========== START SERVER ==========
-app.listen(PORT, '0.0.0.0', () => {
-    console.log('\n' + '='.repeat(60));
-    console.log('🚀 DR. FEYSEL CLINIC SERVER RUNNING ON RAILWAY!');
-    console.log('='.repeat(60));
-    console.log(`📍 Port: ${PORT}`);
-    console.log(`📍 Environment: ${process.env.NODE_ENV || 'production'}`);
-    console.log(`📍 Health: /health`);
-    console.log(`📍 Book: POST /api/appointments`);
-    console.log(`📍 Admin: GET /api/admin/appointments`);
-    console.log('='.repeat(60));
-    console.log('✅ Server is ready for bookings!');
-    console.log('='.repeat(60) + '\n');
-});
-
-// ========== HANDLE UNCAUGHT ERRORS ==========
-process.on('uncaughtException', (err) => {
-    console.error('❌ Uncaught Exception:', err);
-});
-
-process.on('unhandledRejection', (reason, promise) => {
-    console.error('❌ Unhandled Rejection at:', promise, 'reason:', reason);
-});
-
-module.exports = app;
+// Make global
+window.testConnection = testConnection;
 
 // ===========================================
 // 4. SMOOTH SCROLL - SIMPLE
