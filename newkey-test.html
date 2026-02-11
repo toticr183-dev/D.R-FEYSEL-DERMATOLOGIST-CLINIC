@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<body style="padding:20px;">
+    <h2>🔑 Test New API Key</h2>
+    
+    <div style="background:#e3f2fd; padding:20px; border-radius:10px;">
+        <p>Paste your NEW key from Supabase:</p>
+        <textarea id="newKey" rows="3" style="width:100%; padding:10px; font-family:monospace;" placeholder="sb_publishable_..."></textarea>
+        <br><br>
+        <button onclick="testKey()" style="padding:10px 20px; background:#4caf50; color:white; border:none; border-radius:5px;">
+            Test This Key
+        </button>
+    </div>
+    
+    <div id="result" style="margin-top:20px; padding:20px;"></div>
+
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+    <script>
+        async function testKey() {
+            const key = document.getElementById('newKey').value.trim();
+            const result = document.getElementById('result');
+            
+            if (!key.startsWith('sb_publishable_')) {
+                result.innerHTML = '<p style="color:red;">❌ Key must start with "sb_publishable_"</p>';
+                return;
+            }
+            
+            result.innerHTML = '<p>Testing...</p>';
+            
+            const db = window.supabase.createClient(
+                'https://iihgacjyaxtkvzpbprcq.supabase.co',
+                key
+            );
+            
+            try {
+                // Test 1: Simple query
+                const { error: queryError } = await db
+                    .from('appointments')
+                    .select('*', { count: 'exact', head: true });
+                
+                if (queryError) {
+                    result.innerHTML = `<p style="color:red;">❌ Query failed: ${queryError.message}</p>`;
+                    return;
+                }
+                
+                // Test 2: Insert
+                const { data, error: insertError } = await db
+                    .from('appointments')
+                    .insert([{
+                        name: 'New Key Test',
+                        phone: '+251911223344',
+                        clinic: 'zenebework',
+                        appointment_date: '2024-03-25'
+                    }])
+                    .select();
+                
+                if (insertError) {
+                    result.innerHTML = `
+                        <div style="color:orange;">
+                            <h3>⚠️ Query works, Insert fails</h3>
+                            <p>Error: ${insertError.message}</p>
+                            <p>Need INSERT policy in RLS.</p>
+                            <button onclick="showRLSFix()" style="padding:10px; background:#dc3545; color:white; border:none;">
+                                Show RLS Fix
+                            </button>
+                        </div>
+                    `;
+                } else {
+                    result.innerHTML = `
+                        <div style="color:green; background:#d4edda; padding:20px; border-radius:10px;">
+                            <h3>🎉 KEY WORKS PERFECTLY!</h3>
+                            <p>Created appointment ID: ${data[0].id}</p>
+                            <p><strong>Use this key in your script.js:</strong></p>
+                            <textarea style="width:100%; padding:10px; font-family:monospace; background:#e9ecef;" rows="2">
+const SUPABASE_KEY = '${key}';
+                            </textarea>
+                        </div>
+                    `;
+                }
+            } catch (err) {
+                result.innerHTML = `<p style="color:red;">❌ Exception: ${err.message}</p>`;
+            }
+        }
+        
+        function showRLSFix() {
+            const result = document.getElementById('result');
+            result.innerHTML += `
+                <div style="background:#f8d7da; padding:15px; margin-top:15px; border-radius:5px;">
+                    <h4>RLS Fix:</h4>
+                    <p>Run in Supabase SQL Editor:</p>
+                    <code style="background:white; padding:10px; display:block; font-family:monospace;">
+                        -- Enable RLS<br>
+                        ALTER TABLE appointments ENABLE ROW LEVEL SECURITY;<br><br>
+                        -- Allow all operations<br>
+                        CREATE POLICY "allow_all" ON appointments<br>
+                        FOR ALL USING (true) WITH CHECK (true);
+                    </code>
+                </div>
+            `;
+        }
+    </script>
+</body>
+</html>
