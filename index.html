@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
     <title>Dr. Feysel Dermatology Clinic | Ethiopia's Leading Skin Specialist</title>
+    <!-- ===== FAVICON (Browser Tab Icon) ===== -->
+<link rel="icon" type="image/png" href="logo.png">
+<link rel="shortcut icon" type="image/png" href="logo.png">
     
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -29,7 +32,51 @@
         z-index: 9999;
         animation: slideDown 0.3s ease;
     }
+    /* ===== LOGO STYLES ===== */
+.logo-container {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.logo-image {
+    height: 60px;
+    width: auto;
+    border-radius: 8px;
+    transition: transform 0.3s ease;
+}
+
+.logo-image:hover {
+    transform: scale(1.05);
+}
+
+.clinic-name {
+    font-size: 1.5rem;
+    color: #0066cc;
+    margin: 0;
+    line-height: 1.2;
+}
+
+.clinic-subtitle {
+    font-size: 0.8rem;
+    color: #666;
+    margin: 0;
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+    .logo-image {
+        height: 45px;
+    }
     
+    .clinic-name {
+        font-size: 1.2rem;
+    }
+    
+    .clinic-subtitle {
+        font-size: 0.7rem;
+    }
+}
     /* Better mobile typography */
     h1 { font-size: 1.8rem; }
     h2 { font-size: 1.5rem; }
