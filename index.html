@@ -613,26 +613,33 @@
 </head>
 <body>
     <!-- HEADER -->
-    <header>
-        <nav>
-            <div class="logo">
-                <h1>Dr. Feysel</h1>
-                <p>Dermatology Clinic</p>
+   <!-- ===== HEADER WITH LOGO ===== -->
+<header style="background: white; box-shadow: 0 2px 10px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 1000;">
+    <nav style="display: flex; justify-content: space-between; align-items: center; max-width: 1400px; margin: 0 auto; padding: 1rem 5%;">
+        
+        <!-- LOGO + CLINIC NAME -->
+        <div style="display: flex; align-items: center; gap: 15px;">
+            <img src="logo.png" alt="Dr. Feysel Dermatology Clinic Logo" style="height: 60px; width: auto; border-radius: 8px;">
+            <div>
+                <h1 style="font-size: 1.5rem; color: #0066cc; margin: 0;">Dr. Feysel</h1>
+                <p style="font-size: 0.8rem; color: #666; margin: 0;">Dermatology Clinic</p>
             </div>
-            
-            <button class="mobile-menu-btn" id="mobileMenuBtn">
-                <i class="fas fa-bars"></i>
-            </button>
-            
-            <ul class="nav-links" id="navLinks">
-                <li><a href="#home">Home</a></li>
-                <li><a href="#services">Services</a></li>
-                <li><a href="#live">Live Session</a></li>
-                <li><a href="#book">Book Now</a></li>
-                <li><a href="#clinics">Clinics</a></li>
-            </ul>
-        </nav>
-    </header>
+        </div>
+        
+        <!-- NAVIGATION LINKS -->
+        <ul style="display: flex; list-style: none; gap: 2rem;">
+            <li><a href="#home" style="text-decoration: none; color: #333; font-weight: 500;">Home</a></li>
+            <li><a href="#doctors" style="text-decoration: none; color: #333; font-weight: 500;">Doctors</a></li>
+            <li><a href="#services" style="text-decoration: none; color: #333; font-weight: 500;">Services</a></li>
+            <li><a href="#book" style="text-decoration: none; color: #333; font-weight: 500;">Book</a></li>
+        </ul>
+        
+        <!-- MOBILE MENU BUTTON -->
+        <button class="mobile-menu-btn" style="display: none; background: none; border: none; font-size: 1.5rem; color: #0066cc;">
+            <i class="fas fa-bars"></i>
+        </button>
+    </nav>
+</header>
 
     <!-- HERO SECTION -->
     <section id="home" class="hero">
