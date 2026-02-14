@@ -656,6 +656,65 @@
                 min-width: calc(50% - 0.5rem);
             }
         }
+        /* Doctor Cards Styling */
+.doctor-card {
+    background: white;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+    transition: all 0.3s ease;
+}
+
+.doctor-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 30px rgba(0,102,204,0.15);
+}
+
+.doctor-image {
+    width: 100%;
+    height: 280px;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.doctor-card:hover .doctor-image {
+    transform: scale(1.05);
+}
+
+.doctor-info {
+    padding: 1.5rem;
+    text-align: center;
+}
+
+.doctor-name {
+    color: #0066cc;
+    margin-bottom: 0.3rem;
+    font-size: 1.3rem;
+}
+
+.doctor-title {
+    color: #666;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    font-size: 0.95rem;
+}
+
+.doctor-bio {
+    color: #888;
+    font-size: 0.9rem;
+    line-height: 1.5;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+    .doctor-image {
+        height: 220px;
+    }
+    
+    .doctor-name {
+        font-size: 1.1rem;
+    }
+}
     </style>
 </head>
 <body>
@@ -767,82 +826,81 @@
             </div>
         </div>
     </section>
-    <!-- ===== OUR DOCTORS SECTION (NEW!) ===== -->
+ 
+<!-- ===== OUR EXPERT DERMATOLOGISTS WITH PHOTOS ===== -->
 <section id="doctors" style="padding: 4rem 5%; background: #f8f9fa;">
     <h2 class="section-title">Our Expert Dermatologists</h2>
-    <p style="text-align: center; margin-bottom: 3rem;">Meet our team of board-certified dermatologists dedicated to your skin health</p>
+    <p style="text-align: center; margin-bottom: 3rem; color: #666;">Meet our team of board-certified dermatologists dedicated to your skin health</p>
     
-    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; max-width: 1200px; margin: 0 auto;">
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; max-width: 1200px; margin: 0 auto;">
         
-        <!-- Doctor 1 -->
-        <div style="background: white; padding: 2rem; border-radius: 10px; text-align: center; box-shadow: 0 5px 20px rgba(0,0,0,0.05);">
-            <div style="width: 120px; height: 120px; background: #0066cc; border-radius: 50%; margin: 0 auto 1rem; display: flex; align-items: center; justify-content: center; color: white; font-size: 3rem;">
-                <i class="fas fa-user-md"></i>
+        <!-- Doctor 1: Dr. Feysel Alo -->
+        <div style="background: white; border-radius: 15px; overflow: hidden; box-shadow: 0 5px 20px rgba(0,0,0,0.05); transition: transform 0.3s ease;" onmouseover="this.style.transform='translateY(-10px)'; this.style.boxShadow='0 15px 30px rgba(0,102,204,0.1)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 5px 20px rgba(0,0,0,0.05)';">
+            <img src="images/D.R FEYSEL ALO.jpg" alt="Dr. Feysel Alo" style="width: 100%; height: 280px; object-fit: cover;">
+            <div style="padding: 1.5rem; text-align: center;">
+                <h3 style="margin-bottom: 0.3rem; color: #0066cc;">Dr. Feysel Alo</h3>
+                <p style="color: #666; font-weight: 600; margin-bottom: 0.5rem;">Lead Dermatologist</p>
+                <p style="color: #888; font-size: 0.9rem;">15+ years experience in advanced dermatology</p>
             </div>
-            <h3 style="margin-bottom: 0.5rem;">Dr. Feysel Alo</h3>
-            <p style="color: #0066cc; font-weight: 600; margin-bottom: 1rem;">Lead Dermatologist</p>
-            <p style="color: #666;">15+ years experience in advanced dermatology</p>
-        </div>
-        
-
-        <div style="background: white; padding: 2rem; border-radius: 10px; text-align: center; box-shadow: 0 5px 20px rgba(0,0,0,0.05);">
-            <div style="width: 120px; height: 120px; background: #0066cc; border-radius: 50%; margin: 0 auto 1rem; display: flex; align-items: center; justify-content: center; color: white; font-size: 3rem;">
-                <i class="fas fa-user-md"></i>
-            </div>
-            <h3 style="margin-bottom: 0.5rem;">Dr. Zina Ahmed</h3>
-            <p style="color: #0066cc; font-weight: 600; margin-bottom: 1rem;">Dermatologist</p>
-            <p style="color: #666;">Specialist in pediatric dermatology</p>
         </div>
         
-        <div style="background: white; padding: 2rem; border-radius: 10px; text-align: center; box-shadow: 0 5px 20px rgba(0,0,0,0.05);">
-            <div style="width: 120px; height: 120px; background: #0066cc; border-radius: 50%; margin: 0 auto 1rem; display: flex; align-items: center; justify-content: center; color: white; font-size: 3rem;">
-                <i class="fas fa-user-md"></i>
+        <!-- Doctor 2: Dr. Zina Ahmed -->
+        <div style="background: white; border-radius: 15px; overflow: hidden; box-shadow: 0 5px 20px rgba(0,0,0,0.05); transition: transform 0.3s ease;" onmouseover="this.style.transform='translateY(-10px)'; this.style.boxShadow='0 15px 30px rgba(0,102,204,0.1)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 5px 20px rgba(0,0,0,0.05)';">
+            <img src="images/D.R ZINA.jpg" alt="Dr. Zina Ahmed" style="width: 100%; height: 280px; object-fit: cover;">
+            <div style="padding: 1.5rem; text-align: center;">
+                <h3 style="margin-bottom: 0.3rem; color: #0066cc;">Dr. Zina Ahmed</h3>
+                <p style="color: #666; font-weight: 600; margin-bottom: 0.5rem;">Dermatologist</p>
+                <p style="color: #888; font-size: 0.9rem;">Specialist in pediatric dermatology</p>
             </div>
-            <h3 style="margin-bottom: 0.5rem;">Dr. Elias Mulat</h3>
-            <p style="color: #0066cc; font-weight: 600; margin-bottom: 1rem;">Dermatologist</p>
-            <p style="color: #666;"></p>
-        </div>
-      
-        <div style="background: white; padding: 2rem; border-radius: 10px; text-align: center; box-shadow: 0 5px 20px rgba(0,0,0,0.05);">
-            <div style="width: 120px; height: 120px; background: #0066cc; border-radius: 50%; margin: 0 auto 1rem; display: flex; align-items: center; justify-content: center; color: white; font-size: 3rem;">
-                <i class="fas fa-user-md"></i>
-            </div>
-            <h3 style="margin-bottom: 0.5rem;">Dr. Hiwot Engida</h3>
-            <p style="color: #0066cc; font-weight: 600; margin-bottom: 1rem;">Dermatologist</p>
-            <p style="color: #666;"></p>
         </div>
         
-        <div style="background: white; padding: 2rem; border-radius: 10px; text-align: center; box-shadow: 0 5px 20px rgba(0,0,0,0.05);">
-            <div style="width: 120px; height: 120px; background: #0066cc; border-radius: 50%; margin: 0 auto 1rem; display: flex; align-items: center; justify-content: center; color: white; font-size: 3rem;">
-                <i class="fas fa-user-md"></i>
+        <!-- Doctor 3: Dr. Elias Mulat -->
+        <div style="background: white; border-radius: 15px; overflow: hidden; box-shadow: 0 5px 20px rgba(0,0,0,0.05); transition: transform 0.3s ease;" onmouseover="this.style.transform='translateY(-10px)'; this.style.boxShadow='0 15px 30px rgba(0,102,204,0.1)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 5px 20px rgba(0,0,0,0.05)';">
+            <img src="images/ELIAS MULAT.jpg" alt="Dr. Elias Mulat" style="width: 100%; height: 280px; object-fit: cover;">
+            <div style="padding: 1.5rem; text-align: center;">
+                <h3 style="margin-bottom: 0.3rem; color: #0066cc;">Dr. Elias Mulat</h3>
+                <p style="color: #666; font-weight: 600; margin-bottom: 0.5rem;">Dermatologist</p>
             </div>
-            <h3 style="margin-bottom: 0.5rem;">Dr.  Dagmawit Mitku</h3>
-            <p style="color: #0066cc; font-weight: 600; margin-bottom: 1rem;">Dermatologist</p>
-            <p style="color: #666;">y</p>
         </div>
-         
-        <div style="background: white; padding: 2rem; border-radius: 10px; text-align: center; box-shadow: 0 5px 20px rgba(0,0,0,0.05);">
-            <div style="width: 120px; height: 120px; background: #0066cc; border-radius: 50%; margin: 0 auto 1rem; display: flex; align-items: center; justify-content: center; color: white; font-size: 3rem;">
-                <i class="fas fa-user-md"></i>
+        
+        <!-- Doctor 4: Dr. Hiwot Engida -->
+        <div style="background: white; border-radius: 15px; overflow: hidden; box-shadow: 0 5px 20px rgba(0,0,0,0.05); transition: transform 0.3s ease;" onmouseover="this.style.transform='translateY(-10px)'; this.style.boxShadow='0 15px 30px rgba(0,102,204,0.1)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 5px 20px rgba(0,0,0,0.05)';">
+            <img src="images/HIWOT ENGIDA.jpg" alt="Dr. Hiwot Engida" style="width: 100%; height: 280px; object-fit: cover;">
+            <div style="padding: 1.5rem; text-align: center;">
+                <h3 style="margin-bottom: 0.3rem; color: #0066cc;">Dr. Hiwot Engida</h3>
+                <p style="color: #666; font-weight: 600; margin-bottom: 0.5rem;">Dermatologist</p>
             </div>
-            <h3 style="margin-bottom: 0.5rem;">Dr.  Meti Fekadu</h3>
-            <p style="color: #0066cc; font-weight: 600; margin-bottom: 1rem;">Dermatologist</p>
-            <p style="color: #666;"></p>
         </div>
-         
-        <div style="background: white; padding: 2rem; border-radius: 10px; text-align: center; box-shadow: 0 5px 20px rgba(0,0,0,0.05);">
-            <div style="width: 120px; height: 120px; background: #0066cc; border-radius: 50%; margin: 0 auto 1rem; display: flex; align-items: center; justify-content: center; color: white; font-size: 3rem;">
-                <i class="fas fa-user-md"></i>
+        
+        <!-- Doctor 5: Dr. Dagmawit Mitku -->
+        <div style="background: white; border-radius: 15px; overflow: hidden; box-shadow: 0 5px 20px rgba(0,0,0,0.05); transition: transform 0.3s ease;" onmouseover="this.style.transform='translateY(-10px)'; this.style.boxShadow='0 15px 30px rgba(0,102,204,0.1)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 5px 20px rgba(0,0,0,0.05)';">
+            <img src="images/DAMAWIT MITKU.jpg" alt="Dr. Dagmawit Mitku" style="width: 100%; height: 280px; object-fit: cover;">
+            <div style="padding: 1.5rem; text-align: center;">
+                <h3 style="margin-bottom: 0.3rem; color: #0066cc;">Dr. Dagmawit Mitku</h3>
+                <p style="color: #666; font-weight: 600; margin-bottom: 0.5rem;">Dermatologist</p>
             </div>
-            <h3 style="margin-bottom: 0.5rem;">Dr. Solomon Worku</h3>
-            <p style="color: #0066cc; font-weight: 600; margin-bottom: 1rem;">Dermatologist</p>
-            <p style="color: #666;"></p>
         </div>
-     
-      
+        
+        <!-- Doctor 6: Dr. Meti Fekadu -->
+        <div style="background: white; border-radius: 15px; overflow: hidden; box-shadow: 0 5px 20px rgba(0,0,0,0.05); transition: transform 0.3s ease;" onmouseover="this.style.transform='translateY(-10px)'; this.style.boxShadow='0 15px 30px rgba(0,102,204,0.1)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 5px 20px rgba(0,0,0,0.05)';">
+            <img src="images/METI FEKADU.jpg" alt="Dr. Meti Fekadu" style="width: 100%; height: 280px; object-fit: cover;">
+            <div style="padding: 1.5rem; text-align: center;">
+                <h3 style="margin-bottom: 0.3rem; color: #0066cc;">Dr. Meti Fekadu</h3>
+                <p style="color: #666; font-weight: 600; margin-bottom: 0.5rem;">Dermatologist</p>
+            </div>
+        </div>
+        
+        <!-- Doctor 7: Dr. Solomon Worku -->
+        <div style="background: white; border-radius: 15px; overflow: hidden; box-shadow: 0 5px 20px rgba(0,0,0,0.05); transition: transform 0.3s ease;" onmouseover="this.style.transform='translateY(-10px)'; this.style.boxShadow='0 15px 30px rgba(0,102,204,0.1)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 5px 20px rgba(0,0,0,0.05)';">
+            <img src="images/D.R SOLOMON WORKU.jpg" alt="Dr. Solomon Worku" style="width: 100%; height: 280px; object-fit: cover;">
+            <div style="padding: 1.5rem; text-align: center;">
+                <h3 style="margin-bottom: 0.3rem; color: #0066cc;">Dr. Solomon Worku</h3>
+                <p style="color: #666; font-weight: 600; margin-bottom: 0.5rem;">Dermatologist</p>
+            </div>
+        </div>
+        
     </div>
 </section>
-
 <!-- ===== MISSION & VALUES SECTION (NEW!) ===== -->
 <section id="about" style="padding: 4rem 5%; background: white;">
     <div style="max-width: 1200px; margin: 0 auto;">
